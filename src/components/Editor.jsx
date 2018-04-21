@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
+
   htmlContainer: {
     background: 'white',
     align: 'right',
@@ -40,7 +41,7 @@ class Editor extends Component {
         <div style={{ float: 'left', display: 'inline' }}>
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="editorCode">
-                Your code:
+              Your code:
               <br />
               <br />
               <textarea
@@ -48,8 +49,9 @@ class Editor extends Component {
                 onChange={this.handleChange}
                 name="editor"
                 id="editorCode"
-                rows="120"
+                rows="30"
                 cols="80"
+                style={{ overflow: 'auto' }}
               />
               <br />
             </label>
