@@ -1,0 +1,6 @@
+-name-,
+
+I've noticed some irregularities within the spreadsheets - one of the members of staff has been taking out unusually many sick days. There also seems to be a weird pattern of them taking off Fridays and Mondays - definitely suspicious, please investigate the issue. You can use an SQL query - I'm still not used to this new system and I can't get it to work. 
+
+Best, 
+Laurie 
