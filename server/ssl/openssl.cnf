@@ -6,8 +6,8 @@ distinguished_name = req_distinguished_name
 C = GB
 ST = GTMAN
 L = Manchester
-O = Box Hero, Inc.
-OU = BoxHero
+O = iManchester Toolbox
+OU = iManchester Toolbox
 CN = localhost
 
 [ v3_req ]

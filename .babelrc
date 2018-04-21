@@ -1,7 +1,7 @@
 {
     "presets": [
         [
-            "es2015",
+            "env",
             {
                 "modules": false
             }
@@ -10,7 +10,6 @@
         "stage-1"
     ],
     "plugins": [
-        "transform-decorators-legacy",
-        "external-helpers"
+        "transform-decorators-legacy"
     ]
 }
