@@ -2,7 +2,13 @@ body {
     background-color: lightblue;
 }
 
-h1 {
-    color: navy;
-    margin-left: 20px;
+ol li {
+    background: #ffe5e5;
+    padding: 5px;
+    margin-left: 35px;
+}
+
+ul li {
+    background: #cce5ff;
+    margin: 5px;
 }
