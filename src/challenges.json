@@ -1,3 +1,5 @@
 {
-  "emails": ["email1", "email2"]
+  "emails": ["wdemail1", "wdemail2", "wdemail3","csemail1", "csemail2", "csemail3",
+             "doemail1", "doemail2", "doemail3","dsemail1", "dsemail2", "dsemail3",
+             "intro"]
 }
