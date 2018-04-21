@@ -1,7 +1,6 @@
 import {
   GraphQLBoolean,
   GraphQLInt,
-  GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
@@ -55,14 +54,6 @@ const queryType = new GraphQLObjectType({
 
         return challenge;
       }
-    },
-    whoIsGoingOut: {
-      type: new GraphQLList(GraphQLString),
-      resolve: ({ session }) => {
-        if (!session.isLoggedIn) return null;
-
-        return global.goingOutUsernames;
-      }
     }
   }
 });
@@ -78,7 +69,7 @@ const mutationType = new GraphQLObjectType({
         password: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve: ({ session }, { username, password }) => new Promise((resolve) => {
-        const correctPassword = '$2a$10$AeTTyz7O9cxA6mdOxvyiEuzFxdZEYlO1B.MlPbH7z7STaABmsbIWu';
+        const correctPassword = '$2a$08$9GqXIVPwSM/v/pSGgQCcu.Ea/HYXBLusNzqzKiYZlXkllaNOL8XGq';
 
         bcrypt.compare(password, correctPassword, (err, res) => {
           if (err) {
@@ -102,32 +93,6 @@ const mutationType = new GraphQLObjectType({
       resolve: ({ session }) => {
         session.isLoggedIn = false;
         return session.isLoggedIn;
-      }
-    },
-    goingOut: {
-      type: new GraphQLList(GraphQLString),
-      resolve: ({ session }) => {
-        if (!session.isLoggedIn) return null;
-
-        if (!global.goingOutUsernames.includes(session.username)) {
-          global.goingOutUsernames.push(session.username);
-        }
-
-        return global.goingOutUsernames;
-      }
-    },
-    cameBack: {
-      type: new GraphQLList(GraphQLString),
-      resolve: ({ session }) => {
-        if (!session.isLoggedIn) return null;
-
-        const usernameIndex = global.goingOutUsernames.indexOf(session.username);
-
-        if (usernameIndex > -1) {
-          global.goingOutUsernames.splice(usernameIndex, 1);
-        }
-
-        return global.goingOutUsernames;
       }
     }
   }

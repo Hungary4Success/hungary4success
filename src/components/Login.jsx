@@ -50,7 +50,7 @@ class Login extends Component {
           <Card className={classes.card} style={{ ...transitionStyles[state] }}>
             <CardContent>
               <Typography type="title" className={classes.title}>
-                Choose a name and enter password
+                Enter your username and password
               </Typography>
               <TextField
                 id="username"
