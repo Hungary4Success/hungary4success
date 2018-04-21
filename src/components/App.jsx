@@ -12,16 +12,19 @@ import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
   background: {
-    backgroundImage: 'url("images/out.jpg")',
-    backgroundPosition: '35%',
+    backgroundImage: 'url("images/background1.jpg")',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     position: 'fixed',
-    height: '100%',
     width: '100%',
+<<<<<<< HEAD
     filter: 'blur(10px)',
     transition: 'opacity 500ms ease-in-out',
     zIndex: '-1'
+=======
+    height: '100%',
+    transition: 'opacity 500ms ease-in-out'
+>>>>>>> f91538f27bf74139d6977a1f045310272194afd6
   }
 });
 

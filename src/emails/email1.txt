@@ -1,0 +1,6 @@
+Hey -name-,
+
+There's an issue with one of our webpages. I keep trying to format it, but no matter what I write in the CSS file, nothing changes on the actual website. I think it might have something to do with the link between the two files - would you mind taking a look for me?
+
+Thanks,
+Jared
