@@ -20,7 +20,8 @@ const styles = () => ({
     height: '100%',
     width: '100%',
     filter: 'blur(10px)',
-    transition: 'opacity 500ms ease-in-out'
+    transition: 'opacity 500ms ease-in-out',
+    zIndex: '-1'
   }
 });
 
