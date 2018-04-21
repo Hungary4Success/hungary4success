@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Email from './Email.jsx';
 import PropTypes from 'prop-types';
 import Transition from 'react-transition-group/Transition';
-import challengeData from '../challenges.json';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
@@ -25,13 +24,6 @@ class Home extends Component {
   @observable level = 0;
 
   render() {
-    const { emails } = challengeData;
-
-    let currentEmail;
-    if (this.level < emails.length) currentEmail = challengeData[this.level];
-
-    const emailData = JSON.parse(`${currentEmail}.json`);
-
     const { classes } = this.props;
     const initialOpacity = this.props.fromLogin ? 0 : 1;
 
@@ -42,13 +34,7 @@ class Home extends Component {
             className={classes.container}
             style={{ opacity: initialOpacity, ...transitionStyles[state] }}
           >
-            <Email
-              address={emailData.email}
-              subject={emailData.dubject}
-              content="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
-              profilePicture="/images/in.jpg"
-              challengePath="/login"
-            />
+            <Email level={this.level} />
           </div>
         )}
       </Transition>

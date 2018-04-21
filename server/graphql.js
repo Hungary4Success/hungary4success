@@ -1,5 +1,6 @@
 import {
   GraphQLBoolean,
+  GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -8,6 +9,23 @@ import {
 } from 'graphql';
 
 import bcrypt from 'bcrypt';
+import bluebird from 'bluebird';
+import challengeData from '../src/challenges.json';
+import fs from 'fs';
+
+const Promise = bluebird;
+Promise.promisifyAll(fs);
+
+const challengeType = new GraphQLObjectType({
+  name: 'Challenge',
+  fields: {
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    email: { type: new GraphQLNonNull(GraphQLString) },
+    subject: { type: new GraphQLNonNull(GraphQLString) },
+    profilePicture: { type: new GraphQLNonNull(GraphQLString) },
+    content: { type: new GraphQLNonNull(GraphQLString) }
+  }
+});
 
 // Queries
 const queryType = new GraphQLObjectType({
@@ -18,6 +36,24 @@ const queryType = new GraphQLObjectType({
       resolve: ({ session }) => {
         if (session.isLoggedIn) return session.username;
         return null;
+      }
+    },
+    getChallenge: {
+      type: challengeType,
+      args: {
+        level: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      resolve: async (_, { level }) => {
+        if (level >= challengeData.length) return null;
+
+        const fileName = `src/emails/${challengeData.emails[level]}.json`;
+        const jsonData = await fs.readFileAsync(fileName);
+
+        const challenge = JSON.parse(jsonData);
+        const contentFileName = `src/emails/${challenge.content}`;
+        challenge.content = await fs.readFileAsync(contentFileName);
+
+        return challenge;
       }
     },
     whoIsGoingOut: {

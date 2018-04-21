@@ -7,6 +7,7 @@ import { MuiThemeProvider } from 'material-ui/styles';
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import apolloClient from '../src/apollo_client.js';
+import bluebird from 'bluebird';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -29,6 +30,7 @@ const morgan = require('morgan');
 
 global.fetch = fetch;
 global.goingOutUsernames = [];
+global.Promise = bluebird;
 
 // HTTP Webserver
 const unsecureApp = express();
