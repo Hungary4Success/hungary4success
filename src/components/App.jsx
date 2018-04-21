@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
+import Editor from './Editor.jsx';
 
 const styles = () => ({
   background: {
@@ -84,6 +85,15 @@ class App extends Component {
             render={defaultProps => (<Login
               handleLogin={() => this.handleLogin()}
               loginError={loginError}
+              {...defaultProps}
+            />)}
+          />
+          <Route
+            path="/editor"
+            render={defaultProps => (<Editor
+              handleLogout={() => this.handleLogout()}
+              username={username}
+              fromLogin={this.fromLogin}
               {...defaultProps}
             />)}
           />
