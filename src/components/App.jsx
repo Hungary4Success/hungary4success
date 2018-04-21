@@ -17,6 +17,7 @@ const styles = () => ({
     backgroundSize: 'cover',
     position: 'fixed',
     width: '100%',
+    height: '100%',
     filter: 'blur(10px)',
     transition: 'opacity 500ms ease-in-out',
     zIndex: '-1'

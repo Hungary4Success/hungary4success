@@ -78,10 +78,10 @@ class Email extends Component {
                 {challengeData.name}
               </Typography>
               <Typography variant="subheading" component="h2">
-                From: {challengeData.email}
+                <b>From:</b> {challengeData.email}
               </Typography>
               <Typography variant="subheading" component="h2">
-                Subject: {challengeData.subject}
+                <b>Subject:</b> {challengeData.subject}
               </Typography>
             </div>
           </div>
