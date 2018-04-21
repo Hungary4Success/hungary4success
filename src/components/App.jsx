@@ -50,7 +50,7 @@ class App extends Component {
     this.props.loginMutate({
       variables: { username, password }
     }).then(({ data }) => {
-      if (data.loginUser === true) {
+      if (data.user) {
         this.loginError = false;
       } else {
         this.loginError = true;
@@ -67,6 +67,8 @@ class App extends Component {
   }
 
   render() {
+    if (this.props.data.loading) return <div />;
+
     const { loginError } = this;
     const { pathname } = this.props.location;
     const { user } = this.props.data;
