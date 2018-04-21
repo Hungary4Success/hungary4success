@@ -3,5 +3,6 @@
   "email": "monica95@fakemail.com",
   "subject": "URGENT",
   "profilePicture": "person1.png",
-  "content": "csemail1.txt"
+  "content": "csemail1.txt",
+  "type": "web"
 }
