@@ -62,6 +62,8 @@ class Email extends Component {
     }
 
     const challengeData = this.props.data.getChallenge;
+    const content = challengeData.content.replace(/-name-/g, this.props.username)
+      .replace(/\n/g, '<br />');
 
     const { classes } = this.props;
     return (
@@ -85,9 +87,7 @@ class Email extends Component {
               </Typography>
             </div>
           </div>
-          <Typography paragraph component="p">
-            {challengeData.content}
-          </Typography>
+          <Typography paragraph component="p" dangerouslySetInnerHTML={{ __html: content }} />
         </CardContent>
         <CardActions className={classes.cardActions}>
           <Button size="small" color="primary">
@@ -102,6 +102,8 @@ class Email extends Component {
 }
 
 Email.propTypes = {
+  level: PropTypes.number.isRequired,
+  username: PropTypes.string.isRequired,
   classes: PropTypes.shape({
     card: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
