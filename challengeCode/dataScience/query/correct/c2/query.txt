@@ -1,0 +1,6 @@
+CREATE TABLE Employee (
+  ID int,
+  Name varchar(255),
+  SickLeave int,
+  Salary int
+);

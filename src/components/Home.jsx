@@ -34,13 +34,7 @@ class Home extends Component {
             className={classes.container}
             style={{ opacity: initialOpacity, ...transitionStyles[state] }}
           >
-            <Email
-              address=""
-              subject=""
-              content="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
-              profilePicture="/images/in.jpg"
-              challengePath="/login"
-            />
+            <Email level={this.level} username={this.props.username} />
           </div>
         )}
       </Transition>
@@ -49,10 +43,11 @@ class Home extends Component {
 }
 
 Home.propTypes = {
+  username: PropTypes.string.isRequired,
+  fromLogin: PropTypes.bool.isRequired,
   classes: PropTypes.shape({
     container: PropTypes.string.isRequired
-  }).isRequired,
-  fromLogin: PropTypes.bool.isRequired
+  }).isRequired
 };
 
 export default withStyles(styles)(Home);

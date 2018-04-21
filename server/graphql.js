@@ -1,6 +1,6 @@
 import {
   GraphQLBoolean,
-  GraphQLList,
+  GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
@@ -8,6 +8,23 @@ import {
 } from 'graphql';
 
 import bcrypt from 'bcrypt';
+import bluebird from 'bluebird';
+import challengeData from '../src/challenges.json';
+import fs from 'fs';
+
+const Promise = bluebird;
+Promise.promisifyAll(fs);
+
+const challengeType = new GraphQLObjectType({
+  name: 'Challenge',
+  fields: {
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    email: { type: new GraphQLNonNull(GraphQLString) },
+    subject: { type: new GraphQLNonNull(GraphQLString) },
+    profilePicture: { type: new GraphQLNonNull(GraphQLString) },
+    content: { type: new GraphQLNonNull(GraphQLString) }
+  }
+});
 
 // Queries
 const queryType = new GraphQLObjectType({
@@ -20,12 +37,22 @@ const queryType = new GraphQLObjectType({
         return null;
       }
     },
-    whoIsGoingOut: {
-      type: new GraphQLList(GraphQLString),
-      resolve: ({ session }) => {
-        if (!session.isLoggedIn) return null;
+    getChallenge: {
+      type: challengeType,
+      args: {
+        level: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      resolve: async (_, { level }) => {
+        if (level >= challengeData.length) return null;
 
-        return global.goingOutUsernames;
+        const fileName = `src/emails/${challengeData.emails[level]}.json`;
+        const jsonData = await fs.readFileAsync(fileName);
+
+        const challenge = JSON.parse(jsonData);
+        const contentFileName = `src/emails/${challenge.content}`;
+        challenge.content = await fs.readFileAsync(contentFileName);
+
+        return challenge;
       }
     }
   }
@@ -42,7 +69,7 @@ const mutationType = new GraphQLObjectType({
         password: { type: new GraphQLNonNull(GraphQLString) }
       },
       resolve: ({ session }, { username, password }) => new Promise((resolve) => {
-        const correctPassword = '$2a$10$AeTTyz7O9cxA6mdOxvyiEuzFxdZEYlO1B.MlPbH7z7STaABmsbIWu';
+        const correctPassword = '$2a$08$9GqXIVPwSM/v/pSGgQCcu.Ea/HYXBLusNzqzKiYZlXkllaNOL8XGq';
 
         bcrypt.compare(password, correctPassword, (err, res) => {
           if (err) {
@@ -66,32 +93,6 @@ const mutationType = new GraphQLObjectType({
       resolve: ({ session }) => {
         session.isLoggedIn = false;
         return session.isLoggedIn;
-      }
-    },
-    goingOut: {
-      type: new GraphQLList(GraphQLString),
-      resolve: ({ session }) => {
-        if (!session.isLoggedIn) return null;
-
-        if (!global.goingOutUsernames.includes(session.username)) {
-          global.goingOutUsernames.push(session.username);
-        }
-
-        return global.goingOutUsernames;
-      }
-    },
-    cameBack: {
-      type: new GraphQLList(GraphQLString),
-      resolve: ({ session }) => {
-        if (!session.isLoggedIn) return null;
-
-        const usernameIndex = global.goingOutUsernames.indexOf(session.username);
-
-        if (usernameIndex > -1) {
-          global.goingOutUsernames.splice(usernameIndex, 1);
-        }
-
-        return global.goingOutUsernames;
       }
     }
   }

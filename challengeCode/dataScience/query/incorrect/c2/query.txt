@@ -1,0 +1,5 @@
+Table name: Employee
+Column 1: ID (int)
+Column 2: Name (varchar)
+Column 3: SickLeave (int)
+Column 4: Salary (int)
