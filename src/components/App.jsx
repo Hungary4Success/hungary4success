@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { compose, graphql } from 'react-apollo';
 
-// import Home from './Home.jsx';
 import Login from './Login.jsx';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
@@ -10,6 +9,7 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 import Editor from './Editor.jsx';
+import Home from './Home.jsx';
 
 const styles = () => ({
   background: {
