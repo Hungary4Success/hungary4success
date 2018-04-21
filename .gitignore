@@ -110,7 +110,6 @@ $RECYCLE.BIN/
 
 # Visual Studio Code
 .vscode
-jsconfig.json
 typings.json
 typings/
 
@@ -119,3 +118,4 @@ server.bundle.js
 www/bundle.js
 !www/external/
 tmp/
+yarn.lock

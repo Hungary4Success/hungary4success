@@ -1,7 +1,10 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["airbnb"],
-  "rules":{
+    "parser": "babel-eslint",
+    "extends": ["airbnb"],
+    "env": {
+        "browser": true
+    },
+    "rules":{
         "no-console": 0,
         "semi": [2, "always"],
         "comma-dangle": [2, "never"],
