@@ -79,7 +79,7 @@ class Email extends Component {
         </CardContent>
         <CardActions className={classes.cardActions}>
           <Button size="small" color="primary">
-            <Link to={this.props.challangePath} className={classes.link}>
+            <Link to={this.props.challengePath} className={classes.link}>
               Accept job
             </Link>
           </Button>
@@ -102,7 +102,7 @@ Email.propTypes = {
   subject: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   profilePicture: PropTypes.string.isRequired,
-  challangePath: PropTypes.string.isRequired
+  challengePath: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Email);
