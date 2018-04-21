@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
+import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 
@@ -9,7 +10,6 @@ const styles = () => ({
     align: 'right',
     borderLeft: '10px dashed #333'
   }
-
 });
 
 @observer
@@ -36,31 +36,40 @@ class Editor extends Component {
 
   render() {
     return (
-      <div>
-        <Fragment>
-          <div style={{ float: 'left', display: 'inline' }}>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Your code:<br /><br />
-                <textarea value={this.state.value} onChange={this.handleChange} name="editor" id="editorCode" rows="120" cols="80" />
-                <br />
-              </label>
-              <input type="submit" value="Check" />
-            </form>
-          </div>
-        </Fragment>
-        <Fragment>
-          <div style={{ minWidth: '10px' }} />
-        </Fragment>
-        <Fragment>
-          <div >
-            <span>Your webpage</span>
-            <div className={this.props.classes.htmlContainer} id="htmlPreview" />
-          </div>
-        </Fragment>
-      </div>
+      <Fragment>
+        <div style={{ float: 'left', display: 'inline' }}>
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="editorCode">
+                Your code:
+              <br />
+              <br />
+              <textarea
+                value={this.state.value}
+                onChange={this.handleChange}
+                name="editor"
+                id="editorCode"
+                rows="120"
+                cols="80"
+              />
+              <br />
+            </label>
+            <input type="submit" value="Check" />
+          </form>
+        </div>
+        <div style={{ minWidth: '10px' }} />
+        <div >
+          <span>Your webpage</span>
+          <div className={this.props.classes.htmlContainer} id="htmlPreview" />
+        </div>
+      </Fragment>
     );
   }
 }
+
+Editor.propTypes = {
+  classes: PropTypes.shape({
+    htmlContainer: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export default withStyles(styles)(Editor);
