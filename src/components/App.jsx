@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { compose, graphql } from 'react-apollo';
 
-import Home from './Home.jsx';
+// import Home from './Home.jsx';
 import Login from './Login.jsx';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
@@ -99,7 +99,7 @@ class App extends Component {
           />
           <Route
             path="/"
-            render={defaultProps => (<Home
+            render={defaultProps => (<Editor
               handleLogout={() => this.handleLogout()}
               username={username}
               fromLogin={this.fromLogin}

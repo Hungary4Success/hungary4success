@@ -2,26 +2,12 @@ import React, { Component, Fragment } from 'react';
 
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
-import { Frame } from 'react-iframe-component';
 
 const styles = () => ({
-  container: {
-    height: '100%',
-    transition: 'opacity 500ms ease-in-out'
-  },
-  content: {
-    position: 'relative',
-    top: '30%',
-    margin: '0 10%',
-    textAlign: 'center'
-  },
-  status: {
-    fontSize: '200%',
-    color: 'white',
-    textAlign: 'center'
-  },
-  button: {
-    marginTop: '50px'
+  htmlContainer: {
+    background: 'white',
+    align: 'right',
+    borderLeft: '10px dashed #333'
   }
 
 });
@@ -35,6 +21,7 @@ class Editor extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -42,14 +29,19 @@ class Editor extends Component {
     document.getElementById('htmlPreview').innerHTML = this.state.value;
   }
 
+  handleSubmit(event) {
+    document.getElementById('htmlPreview').innerHTML = this.state.value;
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div>
         <Fragment>
           <div style={{ float: 'left', display: 'inline' }}>
-            <form>
+            <form onSubmit={this.handleSubmit}>
               <label>
-          Editor:<br />
+                Your code:<br /><br />
                 <textarea value={this.state.value} onChange={this.handleChange} name="editor" id="editorCode" rows="120" cols="80" />
                 <br />
               </label>
@@ -57,10 +49,15 @@ class Editor extends Component {
             </form>
           </div>
         </Fragment>
-        <Frame>
-          <div id="htmlPreview" />
-        </Frame>
-        <Fragment />
+        <Fragment>
+          <div style={{ minWidth: '10px' }} />
+        </Fragment>
+        <Fragment>
+          <div >
+            <span>Your webpage</span>
+            <div className={this.props.classes.htmlContainer} id="htmlPreview" />
+          </div>
+        </Fragment>
       </div>
     );
   }
