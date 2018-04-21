@@ -1,0 +1,8 @@
+Hello -name-,
+
+I've run into some issues with my code. I've run it through a syntax validator and got no errors - so it's probably a different kind of error. 
+
+Please take a look at it if you have any time!
+
+Thank you, 
+Jared D.
