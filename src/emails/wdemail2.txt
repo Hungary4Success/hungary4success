@@ -1,6 +1,7 @@
 Hello -name-,
 
-I've run into some issues with my code. I've run it through a syntax validator and got no errors - so it's probably a different kind of error. 
+I've run into some problems with my code. I've run it through a syntax validator and had no issues - so it's probably a different kind of error. 
+My function returns "true" for something that is obviously incorrect.
 
 Please take a look at it if you have any time!
 

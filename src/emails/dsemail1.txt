@@ -1,0 +1,8 @@
+Hi -name-,
+
+We've recently made the leap from excel spreadsheets to SQl, to deal with the increased amount of data we have to handle.
+
+I've been trying to summarize our profits for the last quarter. I can't seem to work out how to write a query to do this. Could you take a look at what I've written so far and see if you notice any issues?
+
+Thanks in advance,
+Laurie
