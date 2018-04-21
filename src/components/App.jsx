@@ -17,14 +17,9 @@ const styles = () => ({
     backgroundSize: 'cover',
     position: 'fixed',
     width: '100%',
-<<<<<<< HEAD
     filter: 'blur(10px)',
     transition: 'opacity 500ms ease-in-out',
     zIndex: '-1'
-=======
-    height: '100%',
-    transition: 'opacity 500ms ease-in-out'
->>>>>>> f91538f27bf74139d6977a1f045310272194afd6
   }
 });
 
