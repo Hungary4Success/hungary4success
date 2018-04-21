@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    if (this.props.location.pathname === '/login' && nextProps.location.pathname === "/") {
+    if (this.props.location.pathname === '/login' && nextProps.location.pathname === '/') {
       this.fromLogin = true;
     }
   }
