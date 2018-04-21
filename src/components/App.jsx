@@ -100,7 +100,7 @@ class App extends Component {
           />
           <Route
             path="/"
-            render={defaultProps => (<Editor
+            render={defaultProps => (<Home
               handleLogout={() => this.handleLogout()}
               username={username}
               fromLogin={this.fromLogin}
