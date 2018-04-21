@@ -112,11 +112,12 @@ function renderPage(reactApp, client, sheetsRegistry) {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width">
-          <title>RUOut</title>
+          <title>Startup Simulator</title>
 
           <script>window.__APOLLO_STATE__ = ${JSON.stringify(client.extract())};</script>
 
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gugi">
           <link rel="stylesheet" type="text/css" href="styles.css">
         </head>
         <body>
