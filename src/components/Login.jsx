@@ -14,9 +14,11 @@ const styles = () => ({
     top: '30%',
     maxWidth: 375,
     margin: 'auto',
+    borderRadius: '15px',
 
-    opacity: 0,
+    opacity: '0.7',
     transition: 'opacity 500ms ease-in-out'
+
   },
   title: {
     fontSize: '20px',
@@ -29,7 +31,7 @@ const styles = () => ({
 
 const transitionStyles = {
   entering: { opacity: 0 },
-  entered: { opacity: 1 }
+  entered: { opacity: 0.7 }
 };
 
 class Login extends Component {
