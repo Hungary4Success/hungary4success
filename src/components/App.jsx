@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { compose, graphql } from 'react-apollo';
 
+import Challenge from './Challenge.jsx';
 import Home from './Home.jsx';
 import Login from './Login.jsx';
 import PropTypes from 'prop-types';
@@ -41,6 +42,8 @@ class App extends Component {
 
   @observable loginError = false;
   fromLogin = false;
+
+  @observable level = 0;
 
   handleLogin = () => {
     const username = document.getElementById('username').value;
@@ -83,17 +86,25 @@ class App extends Component {
           <Route
             path="/login"
             render={defaultProps => (<Login
-              handleLogin={() => this.handleLogin()}
+              handleLogin={this.handleLogin}
               loginError={loginError}
+              {...defaultProps}
+            />)}
+          />
+          <Route
+            path="/challenge"
+            render={defaultProps => (<Challenge
+              level={this.level}
+              challengeSolved={() => { this.level++; }}
               {...defaultProps}
             />)}
           />
           <Route
             path="/"
             render={defaultProps => (<Home
-              handleLogout={() => this.handleLogout()}
               username={username}
-              fromLogin={this.fromLogin}
+              level={this.level}
+              handleLogout={this.handleLogout}
               {...defaultProps}
             />)}
           />
