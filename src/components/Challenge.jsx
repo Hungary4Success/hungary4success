@@ -47,14 +47,14 @@ class Challenge extends Component {
             <Card className={classes.card}>
               <CardContent className={classes.content}>
                 <Typography gutterBottom variant="headline" component="h1">
-                  Challange {this.props.level}
+                  Challenge {this.props.level}
                 </Typography>
                 <Editor />
               </CardContent>
               <CardActions className={classes.cardActions}>
                 <Button size="small" color="primary" onClick={this.props.challengeSolved}>
                   <Link to="/" styles={{ textDecoration: 'none' }}>
-                Check
+                    Check
                   </Link>
                 </Button>
               </CardActions>

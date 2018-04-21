@@ -57,14 +57,14 @@ class Email extends Component {
 
   render() {
     return (
-      <Query query={getChallengeQuery} variables={{ level: this.props.level }}>
+      <Query query={ChallengeQuery} variables={{ level: this.props.level }}>
         {({ loading, data }) => {
           if (loading) {
             return <CircularProgress />;
           }
 
-          const challengeData = data.getChallenge;
-          const content = challengeData.content.replace(/-name-/g, this.props.username)
+          const { challenge } = data;
+          const content = challenge.content.replace(/-name-/g, this.props.username)
             .replace(/\n/g, '<br />');
 
           const { classes } = this.props;
@@ -73,19 +73,19 @@ class Email extends Component {
               <CardContent className={classes.content}>
                 <div className={classes.details}>
                   <img
-                    src={`images/${challengeData.profilePicture}`}
+                    src={`images/${challenge.profilePicture}`}
                     alt="profile"
                     className={classes.profilePicture}
                   />
                   <div>
                     <Typography gutterBottom variant="headline" component="h1">
-                      {challengeData.name}
+                      {challenge.name}
                     </Typography>
                     <Typography variant="subheading" component="h2">
-                      <b>From:</b> {challengeData.email}
+                      <b>From:</b> {challenge.email}
                     </Typography>
                     <Typography variant="subheading" component="h2">
-                      <b>Subject:</b> {challengeData.subject}
+                      <b>Subject:</b> {challenge.subject}
                     </Typography>
                   </div>
                 </div>
@@ -119,9 +119,9 @@ Email.propTypes = {
   }).isRequired
 };
 
-const getChallengeQuery = gql`
-  query getChallengeQuery($level: Int!) {
-    getChallenge(level: $level) {
+const ChallengeQuery = gql`
+  query ChallengeQuery($level: Int!) {
+    challenge(level: $level) {
       name,
       email,
       subject,
@@ -131,4 +131,4 @@ const getChallengeQuery = gql`
   }
 `;
 
-export default graphql(getChallengeQuery)(withStyles(styles)(Email));
+export default graphql(ChallengeQuery)(withStyles(styles)(Email));
