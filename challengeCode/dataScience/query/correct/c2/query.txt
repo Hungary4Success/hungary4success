@@ -1,1 +1,1 @@
-SELECT MAX(Name) FROM `Employee`
+SELECT Name FROM `Employee` ORDER BY SickLeave DESC LIMIT 1
