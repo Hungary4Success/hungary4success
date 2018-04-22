@@ -3,5 +3,6 @@
   "email": "laurie.b@fakemail.com",
   "subject": "Finances",
   "profilePicture": "person2.png",
-  "content": "dsemail1.txt"
+  "content": "dsemail1.txt",
+  "type": "database"
 }

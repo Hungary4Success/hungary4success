@@ -3,5 +3,6 @@
   "email": "laurie.b@fakemail.com",
   "subject": "Statutory Sick Pay Irregularities",
   "profilePicture": "person2.png",
-  "content": "dsemail2.txt"
+  "content": "dsemail2.txt",
+  "type": "database"
 }

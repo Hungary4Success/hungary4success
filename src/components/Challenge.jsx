@@ -1,12 +1,12 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { Query, compose, graphql } from 'react-apollo';
 import React, { Component } from 'react';
+import { Redirect, Route } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-import { Route } from 'react-router-dom';
+import SQL from './SQL.jsx';
 import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
 import Typography from 'material-ui/Typography';
@@ -50,6 +50,8 @@ class Challenge extends Component {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
+    const level = this.props.level - 1;
+
     if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
       this.props.executeSqlMutate({
         variables: { query: code }
@@ -60,7 +62,7 @@ class Challenge extends Component {
       return;
     }
 
-    if (validate[this.props.level](code, html)) {
+    if (validate[level](code, html)) {
       this.props.challengeSolved();
       history.push('/');
     } else {
@@ -81,8 +83,11 @@ class Challenge extends Component {
     return (
       <Query query={ChallengeCodeQuery} variables={{ level: realLevel }}>
         {({ loading, data }) => {
+          console.log(data);
           if (loading) return <div />;
 
+          const { challengeCode } = data;
+          console.log(challengeCode.type);
           return (
             <Transition appear in timeout={0}>
               {state => (
@@ -95,7 +100,7 @@ class Challenge extends Component {
                       <Typography gutterBottom variant="headline" component="h1">
                         Challenge {realLevel}
                       </Typography>
-                      <Tooltip id="tooltip-left-end" title={data.challengeCode.hint} placement="left-end">
+                      <Tooltip id="tooltip-left-end" title={challengeCode.hint} placement="left-end">
                         <Button
                           size="small"
                           color="primary"
@@ -107,7 +112,11 @@ class Challenge extends Component {
                         </Button>
                       </Tooltip>
                       <br />
-                      <Editor content={data.challengeCode.code} />
+                      {
+                        challengeCode.type === 'database'
+                          ? <SQL content={challengeCode.code} />
+                          : <Editor content={challengeCode.code} />
+                      }
                     </CardContent>
                     <CardActions className={classes.cardActions}>
                       <Typography
@@ -147,7 +156,7 @@ class Challenge extends Component {
 const ChallengeCodeQuery = gql`
   query ChallengeCodeQuery($level: Int!) {
     challengeCode(level: $level) {
-      code, hint
+      code, hint, type
     }
   }
 `;
