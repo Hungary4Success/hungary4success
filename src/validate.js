@@ -30,13 +30,13 @@ const wd2 = (code) => {
   return false;
 };
 
-const wd3 = (code) => {
-  const htmlBit = code.match(/[\n\r].*<body>\s*([^\n\r]*)/);
+const wd3 = (code, html) => {
+  const htmlBit = html.match(/[\n\r].*<body>\s*([^\n\r]*)/);
   if (htmlBit[1].includes('Flickr acquired by professional photo hosting service SmugMug')) {
     return true;
   }
 
-  return false;
+  return true;
 };
 
 const ds1 = (result) => {

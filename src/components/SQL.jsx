@@ -61,6 +61,7 @@ class SQL extends Component {
                     value={this.state.value}
                     id="editorCode"
                     rows="30"
+                    onChange={this.handleChange}
                     className={classes.htmlEditor}
                     style={{ marginTop: 10 }}
                   />
