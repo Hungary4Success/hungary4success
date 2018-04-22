@@ -1,1 +1,1 @@
-Hint for Data Science 2
+Look up SQL Syntax and keywords, particularly ODRER BY, LIMIT, and DESC! This is a tricky one!
