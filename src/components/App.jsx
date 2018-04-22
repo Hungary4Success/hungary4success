@@ -3,15 +3,15 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { compose, graphql } from 'react-apollo';
 
 import Challenge from './Challenge.jsx';
+import Editor from './Editor.jsx';
 import Home from './Home.jsx';
 import Login from './Login.jsx';
 import PropTypes from 'prop-types';
+import SQL from './SQL.jsx';
 import gql from 'graphql-tag';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
-import Editor from './Editor.jsx';
-import SQL from './SQL.jsx';
 
 const styles = () => ({
   background: {
@@ -69,8 +69,6 @@ class App extends Component {
   }
 
   render() {
-    if (this.props.data.loading) return <div />;
-
     const { loginError } = this;
     const { pathname } = this.props.location;
     const { user } = this.props.data;
@@ -83,6 +81,11 @@ class App extends Component {
 
     if (isLoggedIn === true && pathname === '/login') {
       return <Redirect to="/" push />;
+    }
+
+    if (this.showLetter === true && pathname !== '/') {
+      console.log('bbb');
+      return <Redirect to="/" />;
     }
 
     return (
