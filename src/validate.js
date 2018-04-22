@@ -40,7 +40,7 @@ const wd3 = (code) => {
 };
 
 const ds1 = (result) => {
-  if (result.includes('Year: 2017') && result.include('Profit: 101303')) {
+  if (result.includes('Year: 2017') && result.includes('Profit: 101303')) {
     return true;
   }
 

@@ -57,10 +57,10 @@ class SQL extends Component {
                   <br />
                   <textarea
                     value={this.state.value}
-                    onChange={this.handleChange}
                     id="editorCode"
                     rows="30"
                     className={classes.htmlEditor}
+                    style={{ marginTop: 10 }}
                   />
                   <br />
                 </label>

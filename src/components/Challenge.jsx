@@ -48,19 +48,24 @@ class Challenge extends Component {
 
   validateSolution = (history) => {
     const code = document.getElementById('editorCode').value;
-    const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
+    const previewField = document.getElementById('htmlPreview');
 
-    if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
+    if (!previewField) {
       this.props.executeSqlMutate({
         variables: { query: code }
       }).then(({ data }) => {
-        validate[this.props.level](data.executeSql);
+        this.challengeSolved(validate[this.props.level](data.executeSql), history);
       });
 
       return;
     }
 
-    if (validate[this.props.level](code, html)) {
+    const html = previewField.getAttribute('srcdoc');
+    this.challengeSolved(validate[this.props.level](code, html), history);
+  }
+
+  challengeSolved = (validationResult, history) => {
+    if (validationResult) {
       this.props.challengeSolved();
       history.push('/');
     } else {
@@ -80,11 +85,9 @@ class Challenge extends Component {
     return (
       <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
         {({ loading, data }) => {
-          console.log(data);
           if (loading) return <div />;
 
           const { challengeCode } = data;
-          console.log(challengeCode.type);
           return (
             <Transition appear in timeout={0}>
               {state => (
