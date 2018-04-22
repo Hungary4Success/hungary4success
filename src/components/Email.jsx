@@ -66,6 +66,7 @@ class Email extends Component {
           const { challenge } = data;
           const content = challenge.content.replace(/-name-/g, this.props.username)
             .replace(/\n/g, '<br />');
+          const link = (this.props.level == 0) ? '/' : '/challanges';
 
           const { classes } = this.props;
           return (
@@ -92,9 +93,9 @@ class Email extends Component {
                 <Typography paragraph component="p" dangerouslySetInnerHTML={{ __html: content }} />
               </CardContent>
               <CardActions className={classes.cardActions}>
-                <Link to="/challenge" className={classes.link}>
+                <Link to={link} className={classes.link}>
                   <Button size="small" color="primary">
-                    Accept job
+                    Next
                   </Button>
                 </Link>
               </CardActions>
