@@ -2,19 +2,19 @@
   "emails": [
     "intro",
     "csemail1", "wdemail1", "dsemail1",
-    "csemail2", "wdemail2", "dsemail3",
-    "wdemail3"
+    "csemail2", "wdemail2", "wdemail3",
+    "end"
   ],
   "code": [
     "",
     "cs1.html", "wd1.html", "ds1.sql",
-    "cs2.php", "wd2.html", "ds3.sql",
+    "cs2.php", "wd2.html", "wd3.html",
     "wd3.html"
   ],
   "hints": [
     "",
     "cs1", "wd1", "ds1",
-    "cs2", "wd2", "ds3",
+    "cs2", "wd2", "wd3",
     "wd3"
   ]
 }
