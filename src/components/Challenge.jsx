@@ -1,11 +1,12 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import { Query, graphql } from 'react-apollo';
+import { Query, compose, graphql } from 'react-apollo';
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
 import PropTypes from 'prop-types';
+import SQL from './SQL.jsx';
 import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
 import Typography from 'material-ui/Typography';
@@ -49,7 +50,17 @@ class Challenge extends Component {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
-    if (validate[this.props.level - 1](code, html)) {
+    if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
+      this.props.executeSqlMutate({
+        variables: { query: code }
+      }).then(({ data }) => {
+        validate[this.props.level](data.executeSql);
+      });
+
+      return;
+    }
+
+    if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
       history.push('/');
     } else {
@@ -63,15 +74,17 @@ class Challenge extends Component {
       return <Redirect to="/" />;
     }
 
-    const realLevel = this.props.level - 1;
     const { classes } = this.props;
     const { isError } = this;
 
     return (
-      <Query query={ChallengeCodeQuery} variables={{ level: realLevel }}>
+      <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
         {({ loading, data }) => {
+          console.log(data);
           if (loading) return <div />;
 
+          const { challengeCode } = data;
+          console.log(challengeCode.type);
           return (
             <Transition appear in timeout={0}>
               {state => (
@@ -82,9 +95,9 @@ class Challenge extends Component {
                   <Card className={classes.card}>
                     <CardContent className={classes.content}>
                       <Typography gutterBottom variant="headline" component="h1">
-                        Challenge {realLevel}
+                        Challenge {this.props.level}
                       </Typography>
-                      <Tooltip id="tooltip-left-end" title={data.challengeCode.hint} placement="left-end">
+                      <Tooltip id="tooltip-left-end" title={challengeCode.hint} placement="left-end">
                         <Button
                           size="small"
                           color="primary"
@@ -96,7 +109,11 @@ class Challenge extends Component {
                         </Button>
                       </Tooltip>
                       <br />
-                      <Editor content={data.challengeCode.code} />
+                      {
+                        challengeCode.type === 'database'
+                          ? <SQL content={challengeCode.code} />
+                          : <Editor content={challengeCode.code} />
+                      }
                     </CardContent>
                     <CardActions className={classes.cardActions}>
                       <Typography
@@ -136,8 +153,14 @@ class Challenge extends Component {
 const ChallengeCodeQuery = gql`
   query ChallengeCodeQuery($level: Int!) {
     challengeCode(level: $level) {
-      code, hint
+      code, hint, type
     }
+  }
+`;
+
+const ExecuteSqlMutation = gql`
+  mutation ExecuteSqlMutation($query: String!) {
+    executeSql(query: $query)
   }
 `;
 
@@ -147,7 +170,14 @@ Challenge.propTypes = {
     card: PropTypes.string.isRequired
   }).isRequired,
   level: PropTypes.number.isRequired,
-  challengeSolved: PropTypes.func.isRequired
+  challengeSolved: PropTypes.func.isRequired,
+  executeSqlMutate: PropTypes.func.isRequired
 };
 
-export default graphql(ChallengeCodeQuery)(withStyles(styles)(Challenge));
+export default compose(
+  graphql(ChallengeCodeQuery),
+  graphql(ExecuteSqlMutation, {
+    name: 'executeSqlMutate'
+  }),
+  withStyles(styles)
+)(Challenge);

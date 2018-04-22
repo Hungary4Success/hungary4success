@@ -39,4 +39,4 @@ const wd3 = (code) => {
   return false;
 };
 
-export default [cs1, wd1, cs2, wd2, wd3];
+export default [() => {}, cs1, wd1, cs2, wd2, wd3];

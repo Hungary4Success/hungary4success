@@ -3,5 +3,6 @@
   "email": "boss@veryimportant.com",
   "subject": "Success!",
   "profilePicture": "person5.png",
-  "content": "intro.txt"
+  "content": "intro.txt",
+  "type": "intro"
 }

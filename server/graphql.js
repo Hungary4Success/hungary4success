@@ -7,13 +7,16 @@ import {
   GraphQLString
 } from 'graphql';
 
+import Promise from 'bluebird';
 import bcrypt from 'bcrypt';
-import bluebird from 'bluebird';
 import challengeData from '../res/challenges.json';
 import fs from 'fs';
+import sqlite3 from 'sqlite3';
 
-const Promise = bluebird;
 Promise.promisifyAll(fs);
+
+const sqlite = sqlite3.verbose();
+const db = new sqlite.Database('res/database.db');
 
 const userType = new GraphQLObjectType({
   name: 'User',
@@ -35,10 +38,11 @@ const challengeType = new GraphQLObjectType({
 });
 
 const challangeCodeType = new GraphQLObjectType({
-  name: 'ChallangeCode',
+  name: 'ChallengeCode',
   fields: {
     code: { type: new GraphQLNonNull(GraphQLString) },
-    hint: { type: new GraphQLNonNull(GraphQLString) }
+    hint: { type: new GraphQLNonNull(GraphQLString) },
+    type: { type: GraphQLString }
   }
 });
 
@@ -78,7 +82,11 @@ const queryType = new GraphQLObjectType({
         level: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve: async (_, { level }) => {
-        if (level >= challengeData.code.length) return null;
+        if (level >= challengeData.code.length) {
+          return null;
+        } else if (level === 0) {
+          return { code: '', hint: '', type: 'intro' };
+        }
 
         const codeFileName = `res/code/${challengeData.code[level]}`;
         const code = await fs.readFileAsync(codeFileName);
@@ -86,7 +94,10 @@ const queryType = new GraphQLObjectType({
         const hintFileName = `res/hints/${challengeData.hints[level]}.txt`;
         const hint = await fs.readFileAsync(hintFileName);
 
-        return { code, hint };
+        const fileName = `res/emails/${challengeData.emails[level]}.json`;
+        const jsonData = await fs.readFileAsync(fileName);
+
+        return { code, hint, type: JSON.parse(jsonData).type };
       }
     }
   }
@@ -133,6 +144,27 @@ const mutationType = new GraphQLObjectType({
           session.user.level++;
         }
       }
+    },
+    executeSql: {
+      type: GraphQLString,
+      args: {
+        query: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (_, { query }) => new Promise((resolve) => {
+        db.serialize(() => {
+          const rows = [];
+          db.each(query, (err, row) => {
+            if (Object.keys(row).length === null) resolve(null);
+            const rowString = Object.keys(row).map(key => `${key}: ${row[key]}`)
+              .join(', ');
+            rows.push(rowString);
+          }, () => {
+            resolve(rows.join('\n'));
+          });
+        });
+
+        db.close();
+      })
     }
   }
 });

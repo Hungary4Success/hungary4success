@@ -1,5 +1,5 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
@@ -26,6 +26,11 @@ const styles = () => ({
   },
   button: {
     marginLeft: 'auto'
+  },
+  logo: {
+    width: 50,
+    height: 50,
+    margin: 'auto'
   }
 });
 
@@ -47,39 +52,42 @@ class Login extends Component {
     return (
       <Transition appear in timeout={0}>
         {state => (
-          <Card className={classes.card} style={{ ...transitionStyles[state] }}>
-            <CardContent>
-              <Typography type="title" className={classes.title}>
+          <Fragment>
+            <img src="/images/header.png" alt="logo" className={classes.logo} />
+            <Card className={classes.card} style={{ ...transitionStyles[state] }}>
+              <CardContent>
+                <Typography type="title" className={classes.title}>
                 Enter your username and password
-              </Typography>
-              <TextField
-                id="username"
-                label="Name"
-                margin="dense"
-                autoFocus
-                onKeyPress={event => this.handleKeyPress(event)}
-              />
-              <TextField
-                id="password"
-                label="Password"
-                type="password"
-                margin="dense"
-                autoComplete="current-password"
-                error={this.props.loginError}
-                onKeyPress={event => this.handleKeyPress(event)}
-              />
-            </CardContent>
-            <CardActions>
-              <Button
-                variant="raised"
-                color="primary"
-                className={classes.button}
-                onClick={() => this.props.handleLogin()}
-              >
+                </Typography>
+                <TextField
+                  id="username"
+                  label="Name"
+                  margin="dense"
+                  autoFocus
+                  onKeyPress={event => this.handleKeyPress(event)}
+                />
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  margin="dense"
+                  autoComplete="current-password"
+                  error={this.props.loginError}
+                  onKeyPress={event => this.handleKeyPress(event)}
+                />
+              </CardContent>
+              <CardActions>
+                <Button
+                  variant="raised"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() => this.props.handleLogin()}
+                >
                 Login
-              </Button>
-            </CardActions>
-          </Card>
+                </Button>
+              </CardActions>
+            </Card>
+          </Fragment>
           )}
       </Transition>
     );
