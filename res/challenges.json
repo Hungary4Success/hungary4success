@@ -9,12 +9,12 @@
     "",
     "cs1.html", "wd1.html", "ds1.sql",
     "cs2.php", "wd2.html", "wd3.html",
-    "wd3.html"
+    "cs1.html"
   ],
   "hints": [
     "",
     "cs1", "wd1", "ds1",
     "cs2", "wd2", "wd3",
-    "wd3"
+    "cs1"
   ]
 }

@@ -36,7 +36,7 @@ const wd3 = (code, html) => {
     return true;
   }
 
-  return true;
+  return false;
 };
 
 const ds1 = (result) => {
@@ -55,4 +55,4 @@ const ds3 = (result) => {
   return false;
 };
 
-export default [() => {}, cs1, wd1, ds1, cs2, wd2, ds3, wd3];
+export default [() => {}, cs1, wd1, ds1, cs2, wd2, wd3];
