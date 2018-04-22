@@ -1,12 +1,11 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { Query, graphql } from 'react-apollo';
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
 import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
 import Typography from 'material-ui/Typography';
