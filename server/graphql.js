@@ -9,7 +9,7 @@ import {
 
 import bcrypt from 'bcrypt';
 import bluebird from 'bluebird';
-import challengeData from '../src/challenges.json';
+import challengeData from '../res/challenges.json';
 import fs from 'fs';
 
 const Promise = bluebird;
@@ -51,16 +51,30 @@ const queryType = new GraphQLObjectType({
         level: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve: async (_, { level }) => {
-        if (level >= challengeData.length) return null;
+        if (level >= challengeData.emails.length) return null;
 
-        const fileName = `src/emails/${challengeData.emails[level]}.json`;
+        const fileName = `res/emails/${challengeData.emails[level]}.json`;
         const jsonData = await fs.readFileAsync(fileName);
 
         const challenge = JSON.parse(jsonData);
-        const contentFileName = `src/emails/${challenge.content}`;
+        const contentFileName = `res/emails/${challenge.content}`;
         challenge.content = await fs.readFileAsync(contentFileName);
 
         return challenge;
+      }
+    },
+    challengeCode: {
+      type: GraphQLString,
+      args: {
+        level: { type: new GraphQLNonNull(GraphQLInt) }
+      },
+      resolve: async (_, { level }) => {
+        if (level >= challengeData.code.length) return null;
+
+        const fileName = `res/code/${challengeData.code[level]}`;
+        const code = await fs.readFileAsync(fileName);
+
+        return code;
       }
     }
   }
