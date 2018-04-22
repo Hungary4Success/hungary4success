@@ -6,11 +6,13 @@
     "wdemail3", "dsemail3"
   ],
   "code": [
+    "",
     "cs1.html", "wd1.html", "ds1.sql",
     "cs2.php", "wd2.html", "ds1.sql",
     "wd3.html"
   ],
   "hints": [
+    "",
     "cs1", "wd1", "ds1",
     "cs2", "wd2", "ds2",
     "wd3"

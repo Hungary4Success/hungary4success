@@ -50,8 +50,6 @@ class Challenge extends Component {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
-    const level = this.props.level - 1;
-
     if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
       this.props.executeSqlMutate({
         variables: { query: code }
@@ -62,7 +60,7 @@ class Challenge extends Component {
       return;
     }
 
-    if (validate[level](code, html)) {
+    if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
       history.push('/');
     } else {
@@ -76,12 +74,11 @@ class Challenge extends Component {
       return <Redirect to="/" />;
     }
 
-    const realLevel = this.props.level - 1;
     const { classes } = this.props;
     const { isError } = this;
 
     return (
-      <Query query={ChallengeCodeQuery} variables={{ level: realLevel }}>
+      <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
         {({ loading, data }) => {
           console.log(data);
           if (loading) return <div />;
@@ -98,7 +95,7 @@ class Challenge extends Component {
                   <Card className={classes.card}>
                     <CardContent className={classes.content}>
                       <Typography gutterBottom variant="headline" component="h1">
-                        Challenge {realLevel}
+                        Challenge {this.props.level}
                       </Typography>
                       <Tooltip id="tooltip-left-end" title={challengeCode.hint} placement="left-end">
                         <Button

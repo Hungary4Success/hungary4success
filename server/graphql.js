@@ -84,9 +84,9 @@ const queryType = new GraphQLObjectType({
       resolve: async (_, { level }) => {
         if (level >= challengeData.code.length) {
           return null;
+        } else if (level === 0) {
+          return { code: '', hint: '', type: 'intro' };
         }
-
-        console.log(level);
 
         const codeFileName = `res/code/${challengeData.code[level]}`;
         const code = await fs.readFileAsync(codeFileName);
@@ -96,8 +96,6 @@ const queryType = new GraphQLObjectType({
 
         const fileName = `res/emails/${challengeData.emails[level]}.json`;
         const jsonData = await fs.readFileAsync(fileName);
-
-        console.log({ code, hint, type: JSON.parse(jsonData).type });
 
         return { code, hint, type: JSON.parse(jsonData).type };
       }
