@@ -1,5 +1,5 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import { Query, graphql } from 'react-apollo';
+import { Query, compose, graphql } from 'react-apollo';
 import React, { Component } from 'react';
 
 import Button from 'material-ui/Button';
@@ -48,6 +48,16 @@ class Challenge extends Component {
   validateSolution = (history) => {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').value;
+
+    if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
+      this.props.executeSqlMutate({
+        variables: { query: code }
+      }).then(({ data }) => {
+        validate[this.props.level](data.executeSql);
+      });
+
+      return;
+    }
 
     if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
@@ -135,13 +145,26 @@ const ChallengeCodeQuery = gql`
   }
 `;
 
+const ExecuteSqlMutation = gql`
+  mutation ExecuteSqlMutation($query: String!) {
+    executeSql(query: $query)
+  }
+`;
+
 Challenge.propTypes = {
   classes: PropTypes.shape({
     container: PropTypes.string.isRequired,
     card: PropTypes.string.isRequired
   }).isRequired,
   level: PropTypes.number.isRequired,
-  challengeSolved: PropTypes.func.isRequired
+  challengeSolved: PropTypes.func.isRequired,
+  executeSqlMutate: PropTypes.func.isRequired
 };
 
-export default graphql(ChallengeCodeQuery)(withStyles(styles)(Challenge));
+export default compose(
+  graphql(ChallengeCodeQuery),
+  graphql(ExecuteSqlMutation, {
+    name: 'executeSqlMutate'
+  }),
+  withStyles(styles)
+)(Challenge);

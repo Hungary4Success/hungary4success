@@ -7,13 +7,16 @@ import {
   GraphQLString
 } from 'graphql';
 
+import Promise from 'bluebird';
 import bcrypt from 'bcrypt';
-import bluebird from 'bluebird';
 import challengeData from '../res/challenges.json';
 import fs from 'fs';
+import sqlite3 from 'sqlite3';
 
-const Promise = bluebird;
 Promise.promisifyAll(fs);
+
+const sqlite = sqlite3.verbose();
+const db = new sqlite.Database('res/database.db');
 
 const userType = new GraphQLObjectType({
   name: 'User',
@@ -133,6 +136,27 @@ const mutationType = new GraphQLObjectType({
           session.user.level++;
         }
       }
+    },
+    executeSql: {
+      type: GraphQLString,
+      args: {
+        query: { type: new GraphQLNonNull(GraphQLString) }
+      },
+      resolve: (_, { query }) => new Promise((resolve) => {
+        db.serialize(() => {
+          const rows = [];
+          db.each(query, (err, row) => {
+            if (Object.keys(row).length === null) resolve(null);
+            const rowString = Object.keys(row).map(key => `${key}: ${row[key]}`)
+              .join(', ');
+            rows.push(rowString);
+          }, () => {
+            resolve(rows.join('\n'));
+          });
+        });
+
+        db.close();
+      })
     }
   }
 });
