@@ -11,6 +11,10 @@ import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
+  container: {
+    height: '100%',
+    transition: 'opacity 500ms ease-in-out'
+  },
   card: {
     position: 'relative',
     top: '10px',
@@ -38,7 +42,10 @@ class Challenge extends Component {
     return (
       <Transition appear in timeout={0}>
         {state => (
-          <div style={{ opacity: 0, ...transitionStyles[state] }}>
+          <div
+            className={classes.container}
+            style={{ opacity: 0, ...transitionStyles[state] }}
+          >
             <br />
             <br />
             <Card className={classes.card}>
@@ -50,7 +57,7 @@ class Challenge extends Component {
               </CardContent>
               <CardActions className={classes.cardActions}>
                 <Button size="small" color="primary" onClick={this.props.challengeSolved}>
-                  <Link to="/" styles={{ textDecoration: 'none' }}>
+                  <Link to="/" style={{ textDecoration: 'none' }}>
                     Check
                   </Link>
                 </Button>
