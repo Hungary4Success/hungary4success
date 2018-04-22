@@ -1,11 +1,11 @@
 {
   "emails": [
+    "intro",
     "csemail1", "wdemail1",
     "csemail2", "wdemail2",
-    "wdemail3", /*"csemail3",*/
+    "wdemail3",
     "doemail1", "doemail2", "doemail3",
-    "dsemail1", "dsemail2", "dsemail3",
-    "intro"
+    "dsemail1", "dsemail2", "dsemail3"
   ],
   "code": [
     "cs1.html", "wd1.html",

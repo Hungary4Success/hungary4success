@@ -1,6 +1,7 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import { Query, graphql } from 'react-apollo';
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
@@ -49,7 +50,7 @@ class Challenge extends Component {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
-    if (validate[this.props.level](code, html)) {
+    if (validate[this.props.level - 1](code, html)) {
       this.props.challengeSolved();
       history.push('/');
     } else {
@@ -58,11 +59,17 @@ class Challenge extends Component {
   }
 
   render() {
+    if (this.props.level === 0) {
+      this.props.challengeSolved();
+      return <Redirect to="/" />;
+    }
+
+    const realLevel = this.props.level - 1;
     const { classes } = this.props;
     const { isError } = this;
 
     return (
-      <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
+      <Query query={ChallengeCodeQuery} variables={{ level: realLevel }}>
         {({ loading, data }) => {
           if (loading) return <div />;
 
@@ -76,7 +83,7 @@ class Challenge extends Component {
                   <Card className={classes.card}>
                     <CardContent className={classes.content}>
                       <Typography gutterBottom variant="headline" component="h1">
-                        Challenge {this.props.level}
+                        Challenge {realLevel}
                       </Typography>
                       <Tooltip id="tooltip-left-end" title={data.challengeCode.hint} placement="left-end">
                         <Button
