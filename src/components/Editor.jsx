@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 
+import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
-// import { ScrollbarWrapper } from 'react-scrollbars';
 
 const styles = () => ({
   card: {
@@ -23,12 +23,16 @@ const styles = () => ({
   button: {
     marginLeft: 'auto'
   },
+  htmlEditor: {
+    overflow: 'auto'
+  },
   htmlContainer: {
+    width: '50%',
     background: 'white',
     align: 'right',
-    borderLeft: '10px dashed #333'
+    overflow: 'auto',
+    border: 'solid 1px'
   }
-
 });
 
 @observer
@@ -36,11 +40,21 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '<!DOCTYPE html>\n<html>\n  <body>\n\n    <h1>My First Heading</h1>\n    <p>My first paragraph.</p>\n\n  </body>\n</html>'
+      value: '<!DOCTYPE html>\n<html>\n  <body>\n    <h1>My First Heading</h1>\n    <p>My first paragraph.</p>\n\n  </body>\n</html>'
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.componentDidMount);
+    const width = document.getElementById('htmlPreview').offsetWidth - 15;
+    const height = document.getElementById('editorCode').offsetHeight - 2;
+
+    document.getElementById('editorCode').setAttribute('style', `resize: none; width:${width}px;`);
+    document.getElementById('htmlPreview').setAttribute('style', `height:${height}px;`);
+    document.getElementById('htmlPreview').innerHTML = this.state.value;
   }
 
   handleChange(event) {
@@ -61,22 +75,23 @@ class Editor extends Component {
           <Fragment>
             <div style={{ float: 'left', display: 'inline' }}>
               <form onSubmit={this.handleSubmit}>
-                <label>
-                Your code:<br /><br />
-                  <textarea value={this.state.value} onChange={this.handleChange} name="editor" id="editorCode" rows="30" cols="80" />
+                <label htmlFor="editorCode">
+                  <span>Your code:</span>
+                  <br />
+                  <textarea
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    id="editorCode"
+                    rows="30"
+                    className={classes.htmlEditor}
+                  />
                   <br />
                 </label>
-                <input type="submit" value="Check" />
               </form>
             </div>
-          </Fragment>
-          <Fragment>
-            <div style={{ minWidth: '10px' }} />
-          </Fragment>
-          <Fragment>
-            <span>Your webpage</span>
-            <div>
-              <div className={classes.htmlContainer} id="htmlPreview" />
+            <div id="htmlDiv">
+              <span>Your webpage:</span>
+              <div className={this.props.classes.htmlContainer} id="htmlPreview" />
             </div>
           </Fragment>
         </CardContent>
@@ -84,5 +99,11 @@ class Editor extends Component {
     );
   }
 }
+
+Editor.propTypes = {
+  classes: PropTypes.shape({
+    htmlContainer: PropTypes.string.isRequired
+  }).isRequired
+};
 
 export default withStyles(styles)(Editor);

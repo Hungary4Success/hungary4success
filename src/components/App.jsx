@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { compose, graphql } from 'react-apollo';
 
+import Challenge from './Challenge.jsx';
+import Home from './Home.jsx';
 import Login from './Login.jsx';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
@@ -9,7 +11,6 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 import Editor from './Editor.jsx';
-import Home from './Home.jsx';
 import SQL from './SQL.jsx';
 
 const styles = () => ({
@@ -43,6 +44,8 @@ class App extends Component {
 
   @observable loginError = false;
   fromLogin = false;
+
+  @observable level = 0;
 
   handleLogin = () => {
     const username = document.getElementById('username').value;
@@ -85,17 +88,16 @@ class App extends Component {
           <Route
             path="/login"
             render={defaultProps => (<Login
-              handleLogin={() => this.handleLogin()}
+              handleLogin={this.handleLogin}
               loginError={loginError}
               {...defaultProps}
             />)}
           />
           <Route
-            path="/editor"
-            render={defaultProps => (<Editor
-              handleLogout={() => this.handleLogout()}
-              username={username}
-              fromLogin={this.fromLogin}
+            path="/challenge"
+            render={defaultProps => (<Challenge
+              level={this.level}
+              challengeSolved={() => { this.level++; }}
               {...defaultProps}
             />)}
           />
@@ -109,11 +111,20 @@ class App extends Component {
             />)}
           />
           <Route
-            path="/"
-            render={defaultProps => (<Home
+            path="/editor"
+            render={defaultProps => (<Editor
               handleLogout={() => this.handleLogout()}
               username={username}
               fromLogin={this.fromLogin}
+              {...defaultProps}
+            />)}
+          />
+          <Route
+            path="/"
+            render={defaultProps => (<Home
+              username={username}
+              level={this.level}
+              handleLogout={this.handleLogout}
               {...defaultProps}
             />)}
           />

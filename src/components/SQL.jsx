@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
-import { Card } from 'material-ui/Card';
+import Card, { CardContent } from 'material-ui/Card';
 
 const styles = () => ({
   htmlContainer: {
@@ -18,7 +18,7 @@ class SQL extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '<!DOCTYPE html>\n<html>\n  <body>\n\n    <h1>My First Heading</h1>\n    <p>My first paragraph.</p>\n\n  </body>\n</html>'
+      value: 'SELECT *\nFROM Employee;'
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,30 +27,33 @@ class SQL extends Component {
 
   handleChange(event) {
     this.setState({ value: event.target.value });
-    document.getElementById('htmlPreview').innerHTML = this.state.value;
-  }
-
-  handleSubmit(event) {
-    document.getElementById('htmlPreview').innerHTML = this.state.value;
-    event.preventDefault();
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <Card>
-          <div style={{ float: 'left', display: 'inline' }}>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Your code:<br /><br />
-                <textarea value={this.state.value} onChange={this.handleChange} name="editor" id="editorCode" rows="10" cols="80" />
-                <br />
-              </label>
-              <input type="submit" value="Check" />
-            </form>
-          </div>
-        </Card>
-      </div>
+      <Card className={classes.card}>
+        <CardContent>
+          <Fragment>
+            <div style={{ float: 'left', display: 'inline' }}>
+              <form onSubmit={this.handleSubmit}>
+                <label htmlFor="editorCode">
+                  <span>Your code:</span>
+                  <br />
+                  <textarea
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    id="editorCode"
+                    rows="30"
+                    className={classes.htmlEditor}
+                  />
+                  <br />
+                </label>
+              </form>
+            </div>
+          </Fragment>
+        </CardContent>
+      </Card>
     );
   }
 }

@@ -1,4 +1,5 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
+import { Query, graphql } from 'react-apollo';
 import React, { Component } from 'react';
 
 import Button from 'material-ui/Button';
@@ -7,7 +8,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
@@ -20,7 +20,6 @@ const styles = () => ({
     position: 'relative',
     top: '18%',
     width: '75%',
-    height: '62%',
     margin: '0 auto',
 
     borderRadius: 5,
@@ -57,53 +56,59 @@ class Email extends Component {
   @observable goingOutUsernames = [];
 
   render() {
-    if (this.props.data.loading === true) {
-      return <CircularProgress />;
-    }
-
-    const challengeData = this.props.data.getChallenge;
-    const content = challengeData.content.replace(/-name-/g, this.props.username)
-      .replace(/\n/g, '<br />');
-
-    const { classes } = this.props;
     return (
-      <Card className={classes.card}>
-        <CardContent className={classes.content}>
-          <div className={classes.details}>
-            <img
-              src={`images/${challengeData.profilePicture}`}
-              alt="profile"
-              className={classes.profilePicture}
-            />
-            <div>
-              <Typography gutterBottom variant="headline" component="h1">
-                {challengeData.name}
-              </Typography>
-              <Typography variant="subheading" component="h2">
-                <b>From:</b> {challengeData.email}
-              </Typography>
-              <Typography variant="subheading" component="h2">
-                <b>Subject:</b> {challengeData.subject}
-              </Typography>
-            </div>
-          </div>
-          <Typography paragraph component="p" dangerouslySetInnerHTML={{ __html: content }} />
-        </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary">
-            <Link to={`/challenge/${this.props.level}`} className={classes.link}>
-              Accept job
-            </Link>
-          </Button>
-        </CardActions>
-      </Card>
+      <Query query={getChallengeQuery} variables={{ level: this.props.level }}>
+        {({ loading, data }) => {
+          if (loading) {
+            return <CircularProgress />;
+          }
+
+          const challengeData = data.getChallenge;
+          const content = challengeData.content.replace(/-name-/g, this.props.username)
+            .replace(/\n/g, '<br />');
+
+          const { classes } = this.props;
+          return (
+            <Card className={classes.card}>
+              <CardContent className={classes.content}>
+                <div className={classes.details}>
+                  <img
+                    src={`images/${challengeData.profilePicture}`}
+                    alt="profile"
+                    className={classes.profilePicture}
+                  />
+                  <div>
+                    <Typography gutterBottom variant="headline" component="h1">
+                      {challengeData.name}
+                    </Typography>
+                    <Typography variant="subheading" component="h2">
+                      <b>From:</b> {challengeData.email}
+                    </Typography>
+                    <Typography variant="subheading" component="h2">
+                      <b>Subject:</b> {challengeData.subject}
+                    </Typography>
+                  </div>
+                </div>
+                <Typography paragraph component="p" dangerouslySetInnerHTML={{ __html: content }} />
+              </CardContent>
+              <CardActions className={classes.cardActions}>
+                <Button size="small" color="primary">
+                  <Link to="/challenge" className={classes.link}>
+                    Accept job
+                  </Link>
+                </Button>
+              </CardActions>
+            </Card>
+          );
+        }}
+      </Query>
     );
   }
 }
 
 Email.propTypes = {
-  level: PropTypes.number.isRequired,
   username: PropTypes.string.isRequired,
+  level: PropTypes.number.isRequired,
   classes: PropTypes.shape({
     card: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
@@ -111,22 +116,11 @@ Email.propTypes = {
     details: PropTypes.string.isRequired,
     cardActions: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired
-  }).isRequired,
-  data: PropTypes.shape({
-    loading: PropTypes.bool,
-    error: PropTypes.object,
-    getChallenge: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      subject: PropTypes.string.isRequired,
-      profilePicture: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired
-    })
   }).isRequired
 };
 
-const getChallengesQuery = gql`
-  query getChallengesQuery($level: Int!) {
+const getChallengeQuery = gql`
+  query getChallengeQuery($level: Int!) {
     getChallenge(level: $level) {
       name,
       email,
@@ -137,4 +131,4 @@ const getChallengesQuery = gql`
   }
 `;
 
-export default graphql(getChallengesQuery)(withStyles(styles)(Email));
+export default graphql(getChallengeQuery)(withStyles(styles)(Email));
