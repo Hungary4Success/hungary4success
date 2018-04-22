@@ -40,7 +40,7 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '<!DOCTYPE html>\n<html>\n  <body>\n    <h1>My First Heading</h1>\n    <p>My first paragraph.</p>\n\n  </body>\n</html>'
+      value: props.content
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -103,7 +103,8 @@ class Editor extends Component {
 Editor.propTypes = {
   classes: PropTypes.shape({
     htmlContainer: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  content: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(Editor);

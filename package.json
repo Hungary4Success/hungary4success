@@ -44,6 +44,7 @@
     "react-dom": "^16.3.2",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
+    "react-scrollbars": "^0.0.5",
     "react-transition-group": "^2.3.1",
     "serve-favicon": "^2.5.0",
     "uglifyjs-webpack-plugin": "^1.2.5",

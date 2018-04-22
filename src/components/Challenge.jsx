@@ -46,7 +46,7 @@ class Challenge extends Component {
                 <Typography gutterBottom variant="headline" component="h1">
                   Challange {this.props.level}
                 </Typography>
-                <Editor />
+                <Editor content="HELLO" />
               </CardContent>
               <CardActions className={classes.cardActions}>
                 <Button size="small" color="primary" onClick={this.props.challengeSolved}>

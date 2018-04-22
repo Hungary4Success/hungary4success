@@ -3830,6 +3830,10 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
+lodash-node@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/lodash-node/-/lodash-node-2.4.1.tgz#ea82f7b100c733d1a42af76801e506105e2a80ec"
+
 lodash@4.17.5, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
@@ -5041,6 +5045,12 @@ react-scrollbar-size@^2.0.2:
     prop-types "^15.6.0"
     react-event-listener "^0.5.1"
     stifle "^1.0.2"
+
+react-scrollbars@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-scrollbars/-/react-scrollbars-0.0.5.tgz#49163a5ab5e457e6c525fedd5a94238e371daae7"
+  dependencies:
+    lodash-node "^2.4.1"
 
 react-transition-group@^2.2.1, react-transition-group@^2.3.1:
   version "2.3.1"
