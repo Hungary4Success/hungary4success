@@ -38,6 +38,8 @@ class SQL extends Component {
     this.state = {
       value: props.content
     };
+
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
