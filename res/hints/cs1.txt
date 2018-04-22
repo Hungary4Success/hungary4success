@@ -1,1 +1,1 @@
-Hint for CyberSecurity problem 1
+Can you see how someone could find out the password by inspecting the code?

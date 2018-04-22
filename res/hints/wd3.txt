@@ -1,1 +1,1 @@
-Hint for Web Development problem 3
+You might find looking up 2D arrays in JavaScript useful!
