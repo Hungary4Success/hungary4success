@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
 import Transition from 'react-transition-group/Transition';
 import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
 import { observer } from 'mobx-react';
+import validate from '../validate';
 import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
@@ -35,6 +36,15 @@ const transitionStyles = {
 
 @observer
 class Challenge extends Component {
+  validateSolution = (history) => {
+    const code = document.getElementById('editorCode').value;
+
+    if (validate[this.props.level](code)) {
+      this.props.challengeSolved();
+      history.push('/');
+    }
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -59,11 +69,16 @@ class Challenge extends Component {
                       <Editor content={data.challengeCode} />
                     </CardContent>
                     <CardActions className={classes.cardActions} style={{ float: 'right' }}>
-                      <Link to="/" style={{ textDecoration: 'none' }}>
-                        <Button size="small" color="primary" onClick={this.props.challengeSolved}>
-                        Check
+                      <Route render={({ history }) => (
+                        <Button
+                          size="small"
+                          color="primary"
+                          onClick={() => this.validateSolution(history)}
+                        >
+                          Check
                         </Button>
-                      </Link>
+                      )}
+                      />
                     </CardActions>
                   </Card>
                 </div>
