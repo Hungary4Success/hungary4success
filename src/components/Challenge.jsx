@@ -1,10 +1,11 @@
 import Card, { CardActions, CardContent } from 'material-ui/Card';
-import { Query, graphql } from 'react-apollo';
+import { Query, compose, graphql } from 'react-apollo';
 import React, { Component } from 'react';
 
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
@@ -49,6 +50,16 @@ class Challenge extends Component {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
+    if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
+      this.props.executeSqlMutate({
+        variables: { query: code }
+      }).then(({ data }) => {
+        validate[this.props.level](data.executeSql);
+      });
+
+      return;
+    }
+
     if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
       history.push('/');
@@ -58,11 +69,17 @@ class Challenge extends Component {
   }
 
   render() {
+    if (this.props.level === 0) {
+      this.props.challengeSolved();
+      return <Redirect to="/" />;
+    }
+
+    const realLevel = this.props.level - 1;
     const { classes } = this.props;
     const { isError } = this;
 
     return (
-      <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
+      <Query query={ChallengeCodeQuery} variables={{ level: realLevel }}>
         {({ loading, data }) => {
           if (loading) return <div />;
 
@@ -76,7 +93,7 @@ class Challenge extends Component {
                   <Card className={classes.card}>
                     <CardContent className={classes.content}>
                       <Typography gutterBottom variant="headline" component="h1">
-                        Challenge {this.props.level}
+                        Challenge {realLevel}
                       </Typography>
                       <Tooltip id="tooltip-left-end" title={data.challengeCode.hint} placement="left-end">
                         <Button
@@ -135,13 +152,26 @@ const ChallengeCodeQuery = gql`
   }
 `;
 
+const ExecuteSqlMutation = gql`
+  mutation ExecuteSqlMutation($query: String!) {
+    executeSql(query: $query)
+  }
+`;
+
 Challenge.propTypes = {
   classes: PropTypes.shape({
     container: PropTypes.string.isRequired,
     card: PropTypes.string.isRequired
   }).isRequired,
   level: PropTypes.number.isRequired,
-  challengeSolved: PropTypes.func.isRequired
+  challengeSolved: PropTypes.func.isRequired,
+  executeSqlMutate: PropTypes.func.isRequired
 };
 
-export default graphql(ChallengeCodeQuery)(withStyles(styles)(Challenge));
+export default compose(
+  graphql(ChallengeCodeQuery),
+  graphql(ExecuteSqlMutation, {
+    name: 'executeSqlMutate'
+  }),
+  withStyles(styles)
+)(Challenge);

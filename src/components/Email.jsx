@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
-import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
 
@@ -53,8 +52,6 @@ const styles = () => ({
 
 @observer
 class Email extends Component {
-  @observable goingOutUsernames = [];
-
   render() {
     return (
       <Query query={ChallengeQuery} variables={{ level: this.props.level }}>
@@ -66,7 +63,6 @@ class Email extends Component {
           const { challenge } = data;
           const content = challenge.content.replace(/-name-/g, this.props.username)
             .replace(/\n/g, '<br />');
-          const link = (this.props.level == 0) ? '/' : '/challanges';
 
           const { classes } = this.props;
           return (
@@ -93,7 +89,7 @@ class Email extends Component {
                 <Typography paragraph component="p" dangerouslySetInnerHTML={{ __html: content }} />
               </CardContent>
               <CardActions className={classes.cardActions}>
-                <Link to={link} className={classes.link}>
+                <Link to="/challenge" className={classes.link}>
                   <Button size="small" color="primary">
                     Next
                   </Button>
