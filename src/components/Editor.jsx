@@ -87,6 +87,7 @@ class Editor extends Component {
                   />
                   <br />
                 </label>
+
               </form>
             </div>
             <div id="htmlDiv">

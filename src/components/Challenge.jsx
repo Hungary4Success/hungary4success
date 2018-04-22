@@ -34,8 +34,17 @@ const transitionStyles = {
   entered: { opacity: 1 }
 };
 
+
 @observer
 class Challenge extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      content: 'HELLO'
+    };
+  }
+
   render() {
     console.log('render');
     const { classes } = this.props;
@@ -54,7 +63,7 @@ class Challenge extends Component {
                 <Typography gutterBottom variant="headline" component="h1">
                   Challenge {this.props.level}
                 </Typography>
-                <Editor content="HELLO" />
+                <Editor content={this.state.content} />
               </CardContent>
               <CardActions className={classes.cardActions}>
                 <Link to="/" style={{ textDecoration: 'none' }}>

@@ -108,8 +108,8 @@ class App extends Component {
           <Route
             path="/sql"
             render={defaultProps => (<SQL
+              content="SELECT * FROM Employee;"
               handleLogout={() => this.handleLogout()}
-              username={username}
               fromLogin={this.fromLogin}
               {...defaultProps}
             />)}
@@ -118,7 +118,6 @@ class App extends Component {
             path="/editor"
             render={defaultProps => (<Editor
               handleLogout={() => this.handleLogout()}
-              username={username}
               fromLogin={this.fromLogin}
               {...defaultProps}
             />)}
