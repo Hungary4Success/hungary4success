@@ -45,8 +45,6 @@ class App extends Component {
   @observable loginError = false;
   fromLogin = false;
 
-  @observable level = 0;
-
   handleLogin = () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -54,7 +52,7 @@ class App extends Component {
     this.props.loginMutate({
       variables: { username, password }
     }).then(({ data }) => {
-      if (data.loginUser === true) {
+      if (data.user) {
         this.loginError = false;
       } else {
         this.loginError = true;
@@ -66,12 +64,18 @@ class App extends Component {
     this.props.logoutMutate();
   }
 
+  handleChallengeSolved = () => {
+    this.props.increaseLevelMutate();
+  }
+
   render() {
+    if (this.props.data.loading) return <div />;
+
     const { loginError } = this;
     const { pathname } = this.props.location;
-    const username = this.props.data.getUsername;
+    const { user } = this.props.data;
 
-    const isLoggedIn = username !== null;
+    const isLoggedIn = user !== null;
 
     if (!isLoggedIn && pathname !== '/login') {
       return <Redirect to="/login" push />;
@@ -88,7 +92,7 @@ class App extends Component {
           <Route
             path="/login"
             render={defaultProps => (<Login
-              handleLogin={this.handleLogin}
+              handleLogin={() => this.handleLogin()}
               loginError={loginError}
               {...defaultProps}
             />)}
@@ -96,8 +100,8 @@ class App extends Component {
           <Route
             path="/challenge"
             render={defaultProps => (<Challenge
-              level={this.level}
-              challengeSolved={() => { this.level++; }}
+              level={user.level}
+              challengeSolved={() => this.handleChallengeSolved()}
               {...defaultProps}
             />)}
           />
@@ -122,9 +126,8 @@ class App extends Component {
           <Route
             path="/"
             render={defaultProps => (<Home
-              username={username}
-              level={this.level}
-              handleLogout={this.handleLogout}
+              user={user}
+              handleLogout={() => this.handleLogout()}
               {...defaultProps}
             />)}
           />
@@ -134,26 +137,35 @@ class App extends Component {
   }
 }
 
-const getUsernameQuery = gql`
-  query getUsernameQuery {
-    getUsername
+const UserQuery = gql`
+  query UserQuery {
+    user {
+      name,
+      level
+    }
   }
 `;
 
-const LoginUserMutation = gql`
-  mutation LoginUserMutation($username: String!, $password: String!) {
-    loginUser(username: $username, password: $password)
+const LoginMutation = gql`
+  mutation LoginMutation($username: String!, $password: String!) {
+    login(username: $username, password: $password)
   }
 `;
 
-const LogoutUserMutation = gql`
-  mutation LogoutUserMutation {
-    logoutUser
+const LogoutMutation = gql`
+  mutation LogoutMutation {
+    logout
+  }
+`;
+
+const IncreaseLevelMutation = gql`
+  mutation IncreaseLevel {
+    increaseLevel
   }
 `;
 
 const loginMutationOptions = {
-  refetchQueries: ['getUsernameQuery', 'FetchStatusQuery']
+  refetchQueries: ['UserQuery']
 };
 
 App.propTypes = {
@@ -161,24 +173,32 @@ App.propTypes = {
     background: PropTypes.string.isRequired
   }).isRequired,
   data: PropTypes.shape({
-    getUsername: PropTypes.string
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      level: PropTypes.number.isRequired
+    })
   }).isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
   }).isRequired,
   loginMutate: PropTypes.func.isRequired,
-  logoutMutate: PropTypes.func.isRequired
+  logoutMutate: PropTypes.func.isRequired,
+  increaseLevelMutate: PropTypes.func.isRequired
 };
 
 export default compose(
-  graphql(getUsernameQuery),
-  graphql(LoginUserMutation, {
+  graphql(UserQuery),
+  graphql(LoginMutation, {
     name: 'loginMutate',
     options: loginMutationOptions
   }),
-  graphql(LogoutUserMutation, {
+  graphql(LogoutMutation, {
     name: 'logoutMutate',
     options: loginMutationOptions
+  }),
+  graphql(IncreaseLevelMutation, {
+    name: 'increaseLevelMutate',
+    options: { refetchQueries: ['UserQuery'] }
   }),
   withRouter,
   withStyles(styles)

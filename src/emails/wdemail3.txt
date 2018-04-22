@@ -1,0 +1,6 @@
+Hi -name-,
+
+Our marketing team has come up with a new strategy for our blog - instead of ordering the articles chronologically, the home page should have the trending (most viewed) articles first. Please implement this as soon as possible. 
+
+Thanks,
+Jared

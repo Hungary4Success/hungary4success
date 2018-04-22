@@ -15,6 +15,14 @@ import fs from 'fs';
 const Promise = bluebird;
 Promise.promisifyAll(fs);
 
+const userType = new GraphQLObjectType({
+  name: 'User',
+  fields: {
+    name: { type: new GraphQLNonNull(GraphQLString) },
+    level: { type: new GraphQLNonNull(GraphQLInt) }
+  }
+});
+
 const challengeType = new GraphQLObjectType({
   name: 'Challenge',
   fields: {
@@ -30,14 +38,14 @@ const challengeType = new GraphQLObjectType({
 const queryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
-    getUsername: {
-      type: GraphQLString,
+    user: {
+      type: userType,
       resolve: ({ session }) => {
-        if (session.isLoggedIn) return session.username;
+        if (session.user) return session.user;
         return null;
       }
     },
-    getChallenge: {
+    challenge: {
       type: challengeType,
       args: {
         level: { type: new GraphQLNonNull(GraphQLInt) }
@@ -62,8 +70,8 @@ const queryType = new GraphQLObjectType({
 const mutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    loginUser: {
-      type: new GraphQLNonNull(GraphQLBoolean),
+    login: {
+      type: new GraphQLNonNull(GraphQLString),
       args: {
         username: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) }
@@ -78,21 +86,26 @@ const mutationType = new GraphQLObjectType({
           }
 
           if (res === true) {
-            session.isLoggedIn = true;
-            session.username = username;
-
-            resolve(session.isLoggedIn);
+            session.user = { name: username, level: 0 };
+            resolve(session.user.name);
           } else {
             resolve(false);
           }
         });
       })
     },
-    logoutUser: {
+    logout: {
       type: new GraphQLNonNull(GraphQLBoolean),
       resolve: ({ session }) => {
-        session.isLoggedIn = false;
-        return session.isLoggedIn;
+        session.user = null;
+      }
+    },
+    increaseLevel: {
+      type: GraphQLBoolean,
+      resolve: ({ session }) => {
+        if (session.user) {
+          session.user.level++;
+        }
       }
     }
   }

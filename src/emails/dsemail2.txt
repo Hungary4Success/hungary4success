@@ -1,0 +1,8 @@
+-name-,
+
+I have bad news. One of our web developers forgot to sanitize their inputs and we've fallen victim to an SQL injection. One of our tables in the database has been wiped. This contained crucial information about our employees and we cannot afford to lose it. 
+
+You must recreate the table as instructed. Please find attached a document containing all relevant instructions.
+
+Best Regards,
+Laurie

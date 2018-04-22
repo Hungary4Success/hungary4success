@@ -21,7 +21,7 @@ const transitionStyles = {
 @observer
 class Home extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <Transition appear in timeout={0}>
@@ -30,7 +30,7 @@ class Home extends Component {
             className={classes.container}
             style={{ opacity: 0, ...transitionStyles[state] }}
           >
-            <Email level={this.props.level} username={this.props.username} />
+            <Email level={user.level} username={user.name} />
           </div>
         )}
       </Transition>
@@ -39,8 +39,10 @@ class Home extends Component {
 }
 
 Home.propTypes = {
-  username: PropTypes.string.isRequired,
-  level: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    level: PropTypes.number.isRequired
+  }).isRequired,
   classes: PropTypes.shape({
     container: PropTypes.string.isRequired
   }).isRequired
