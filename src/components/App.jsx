@@ -111,6 +111,7 @@ class App extends Component {
           <Route
             path="/sql"
             render={defaultProps => (<SQL
+              content="SELECT * FROM Employee;"
               handleLogout={() => this.handleLogout()}
               fromLogin={this.fromLogin}
               {...defaultProps}

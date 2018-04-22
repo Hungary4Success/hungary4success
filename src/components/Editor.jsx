@@ -58,8 +58,8 @@ class Editor extends Component {
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
     document.getElementById('htmlPreview').innerHTML = this.state.value;
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
@@ -87,6 +87,7 @@ class Editor extends Component {
                   />
                   <br />
                 </label>
+
               </form>
             </div>
             <div id="htmlDiv">

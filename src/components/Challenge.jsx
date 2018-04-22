@@ -34,6 +34,7 @@ const transitionStyles = {
   entered: { opacity: 1 }
 };
 
+
 @observer
 class Challenge extends Component {
   validateSolution = (history) => {
