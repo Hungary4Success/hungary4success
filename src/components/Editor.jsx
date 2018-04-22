@@ -58,8 +58,8 @@ class Editor extends Component {
   }
 
   handleChange(event) {
-    document.getElementById('htmlPreview').innerHTML = this.state.value;
     this.setState({ value: event.target.value });
+    document.getElementById('htmlPreview').innerHTML = event.target.value;
   }
 
   handleSubmit(event) {

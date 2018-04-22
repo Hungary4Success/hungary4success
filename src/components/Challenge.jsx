@@ -36,13 +36,6 @@ const transitionStyles = {
 
 @observer
 class Challenge extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: 'HELLO'
-    };
-  }
 
   render() {
     const { classes } = this.props;
