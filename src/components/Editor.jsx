@@ -30,8 +30,7 @@ const styles = () => ({
     width: '50%',
     background: 'white',
     align: 'right',
-    overflow: 'auto',
-    border: 'solid 1px'
+    overflow: 'auto'
   }
 });
 
@@ -49,21 +48,22 @@ class Editor extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.componentDidMount);
-    const width = document.getElementById('htmlPreview').offsetWidth - 15;
-    const height = document.getElementById('editorCode').offsetHeight - 2;
+    const width = document.getElementById('htmlPreview').offsetWidth - 16;
+    const height = document.getElementById('editorCode').offsetHeight - 3;
+    console.log(width);
 
     document.getElementById('editorCode').setAttribute('style', `resize: none; width:${width}px;`);
     document.getElementById('htmlPreview').setAttribute('style', `height:${height}px;`);
-    document.getElementById('htmlPreview').innerHTML = this.state.value;
+    document.getElementById('htmlPreview').setAttribute('srcdoc', this.state.value);
   }
 
   handleChange(event) {
     this.setState({ value: event.target.value });
-    document.getElementById('htmlPreview').innerHTML = event.target.value;
+    document.getElementById('htmlPreview').setAttribute('srcdoc', event.target.value);
   }
 
   handleSubmit(event) {
-    document.getElementById('htmlPreview').innerHTML = this.state.value;
+    document.getElementById('htmlPreview').setAttribute('srcdoc', this.state.value);
     event.preventDefault();
   }
 
@@ -85,14 +85,12 @@ class Editor extends Component {
                     rows="30"
                     className={classes.htmlEditor}
                   />
-                  <br />
                 </label>
-
               </form>
             </div>
-            <div id="htmlDiv">
-              <span>Your webpage:</span>
-              <div className={this.props.classes.htmlContainer} id="htmlPreview" />
+            <div>
+              <span>Preview:</span>
+              <iframe title="Your webpage" id="htmlPreview" className={classes.htmlContainer} />
             </div>
           </Fragment>
         </CardContent>
