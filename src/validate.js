@@ -38,4 +38,20 @@ const wd3 = (code, html) => {
   return false;
 };
 
-export default [() => {}, cs1, wd1, cs2, wd2, wd3];
+const ds1 = (result) => {
+  if (result.includes('Year: 2017') && result.include('Profit: 101303')) {
+    return true;
+  }
+
+  return false;
+};
+
+const ds3 = (result) => {
+  if (result.includes('Daniel G.')) {
+    return true;
+  }
+
+  return false;
+};
+
+export default [() => {}, cs1, wd1, ds1, cs2, wd2, ds3, wd3];
