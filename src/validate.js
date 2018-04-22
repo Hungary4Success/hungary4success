@@ -1,5 +1,5 @@
 const cs1 = (code) => {
-  if (code.includes('<!--') && code.includes('password')) {
+  if (code.includes('Jy52zb0fL976')) {
     return false;
   }
 
@@ -38,4 +38,4 @@ const wd3 = (code, html) => {
   return false;
 };
 
-export default [cs1, cs2, wd1, wd2, wd3];
+export default [cs1, wd1, cs2, wd2, wd3];
