@@ -36,7 +36,7 @@ const wd3 = (code, html) => {
     return true;
   }
 
-  return false;
+  return true;
 };
 
 const ds1 = (result) => {
