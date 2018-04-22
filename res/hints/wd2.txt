@@ -1,1 +1,1 @@
-Hint for Web Development problem 2
+Are you sure the condition means what it seems to mean at a glance?
