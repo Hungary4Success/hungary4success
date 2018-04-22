@@ -1,10 +1,20 @@
 {
   "emails": [
-    "intro",
-    "wdemail1", "wdemail2", "wdemail3",
-    "csemail1", "csemail2", "csemail3",
+    "csemail1", "wdemail1",
+    "csemail2", "wdemail2",
+    "wdemail3", "csemail3",
     "doemail1", "doemail2", "doemail3",
-    "dsemail1", "dsemail2", "dsemail3"
+    "dsemail1", "dsemail2", "dsemail3",
+    "intro"
   ],
-  "code": [ "cs1.html", "cs2.php" ]
+  "code": [
+    "cs1.html", "wd1.html",
+    "cs2.php", "wd2.html",
+    "wd3.html"
+  ],
+  "hints": [
+    "cs1", "wd1",
+    "cs2", "wd2",
+    "wd3"
+  ]
 }

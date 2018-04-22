@@ -6,6 +6,7 @@ import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
+import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
 import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
@@ -26,6 +27,11 @@ const styles = () => ({
 
     borderRadius: 5,
     maxWidth: 1500
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0 20px 5px 20px'
   }
 });
 
@@ -39,8 +45,9 @@ const transitionStyles = {
 class Challenge extends Component {
   validateSolution = (history) => {
     const code = document.getElementById('editorCode').value;
+    const html = document.getElementById('htmlPreview').value;
 
-    if (validate[this.props.level](code)) {
+    if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
       history.push('/');
     }
@@ -64,12 +71,31 @@ class Challenge extends Component {
                   <Card className={classes.card}>
                     <CardContent className={classes.content}>
                       <Typography gutterBottom variant="headline" component="h1">
-                      Challenge {this.props.level}
+                        Challenge {this.props.level}
                       </Typography>
+                      <Tooltip id="tooltip-left-end" title={data.challengeCode.hint} placement="left-end">
+                        <Button
+                          size="small"
+                          color="primary"
+                          style={{
+                            float: 'right', bottom: 35, cursor: 'default', color: '#3f51b5'
+                          }}
+                        >
+                        Hint
+                        </Button>
+                      </Tooltip>
                       <br />
-                      <Editor content={data.challengeCode} />
+                      <Editor content={data.challengeCode.code} />
                     </CardContent>
-                    <CardActions className={classes.cardActions} style={{ float: 'right' }}>
+                    <CardActions className={classes.cardActions}>
+                      <Typography
+                        gutterBottom
+                        variant="caption"
+                        component="h1"
+                        style={{ color: 'red' }}
+                      >
+                        Sorry, your answer was wrong.
+                      </Typography>
                       <Route render={({ history }) => (
                         <Button
                           size="small"
@@ -94,11 +120,17 @@ class Challenge extends Component {
 
 const ChallengeCodeQuery = gql`
   query ChallengeCodeQuery($level: Int!) {
-    challengeCode(level: $level)
+    challengeCode(level: $level) {
+      code, hint
+    }
   }
 `;
 
 Challenge.propTypes = {
+  classes: PropTypes.shape({
+    container: PropTypes.string.isRequired,
+    card: PropTypes.string.isRequired
+  }).isRequired,
   level: PropTypes.number.isRequired,
   challengeSolved: PropTypes.func.isRequired
 };

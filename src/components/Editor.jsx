@@ -1,9 +1,9 @@
+import Card, { CardContent } from 'material-ui/Card';
 import React, { Component, Fragment } from 'react';
 
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import { withStyles } from 'material-ui/styles';
-import Card, { CardContent } from 'material-ui/Card';
 
 const styles = () => ({
   card: {

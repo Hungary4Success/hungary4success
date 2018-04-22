@@ -34,6 +34,15 @@ const challengeType = new GraphQLObjectType({
   }
 });
 
+const challangeCodeType = new GraphQLObjectType({
+  name: 'ChallangeCode',
+  fields: {
+    code: { type: new GraphQLNonNull(GraphQLString) },
+    hint: { type: new GraphQLNonNull(GraphQLString) }
+  }
+});
+
+
 // Queries
 const queryType = new GraphQLObjectType({
   name: 'Query',
@@ -64,17 +73,20 @@ const queryType = new GraphQLObjectType({
       }
     },
     challengeCode: {
-      type: GraphQLString,
+      type: challangeCodeType,
       args: {
         level: { type: new GraphQLNonNull(GraphQLInt) }
       },
       resolve: async (_, { level }) => {
         if (level >= challengeData.code.length) return null;
 
-        const fileName = `res/code/${challengeData.code[level]}`;
-        const code = await fs.readFileAsync(fileName);
+        const codeFileName = `res/code/${challengeData.code[level]}`;
+        const code = await fs.readFileAsync(codeFileName);
 
-        return code;
+        const hintFileName = `res/hints/${challengeData.hints[level]}.txt`;
+        const hint = await fs.readFileAsync(hintFileName);
+
+        return { code, hint };
       }
     }
   }
