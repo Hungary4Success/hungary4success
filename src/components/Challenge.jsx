@@ -37,6 +37,7 @@ const transitionStyles = {
 @observer
 class Challenge extends Component {
   render() {
+    console.log('render');
     const { classes } = this.props;
 
     return (
@@ -56,11 +57,11 @@ class Challenge extends Component {
                 <Editor content="HELLO" />
               </CardContent>
               <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={this.props.challengeSolved}>
-                  <Link to="/" style={{ textDecoration: 'none' }}>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                  <Button size="small" color="primary" onClick={this.props.challengeSolved}>
                     Check
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </CardActions>
             </Card>
           </div>

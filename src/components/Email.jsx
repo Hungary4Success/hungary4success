@@ -92,11 +92,11 @@ class Email extends Component {
                 <Typography paragraph component="p" dangerouslySetInnerHTML={{ __html: content }} />
               </CardContent>
               <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary">
-                  <Link to="/challenge" className={classes.link}>
+                <Link to="/challenge" className={classes.link}>
+                  <Button size="small" color="primary">
                     Accept job
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
               </CardActions>
             </Card>
           );
