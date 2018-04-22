@@ -1,0 +1,5 @@
+After the last breach we decided to implement additional security measures. Salting and hashing passwords makes our site a lot harder to crack!
+
+Unfortunately I don't know how to implement it, but I dug around on the web and found some things to hopefully get you started!
+
+Monica

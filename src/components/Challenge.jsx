@@ -47,7 +47,7 @@ class Challenge extends Component {
 
   validateSolution = (history) => {
     const code = document.getElementById('editorCode').value;
-    const html = document.getElementById('htmlPreview').value;
+    const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
     if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
