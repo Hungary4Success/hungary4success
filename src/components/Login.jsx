@@ -53,7 +53,7 @@ class Login extends Component {
       <Transition appear in timeout={0}>
         {state => (
           <Fragment>
-            <img src="/images/header.svg" alt="logo" className={classes.logo} />
+            <img src="/images/header.png" alt="logo" className={classes.logo} />
             <Card className={classes.card} style={{ ...transitionStyles[state] }}>
               <CardContent>
                 <Typography type="title" className={classes.title}>
