@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import Button from 'material-ui/Button';
 import Editor from './Editor.jsx';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { Route } from 'react-router-dom';
 import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
@@ -47,7 +48,7 @@ class Challenge extends Component {
 
   validateSolution = (history) => {
     const code = document.getElementById('editorCode').value;
-    const html = document.getElementById('htmlPreview').value;
+    const html = document.getElementById('htmlPreview').getAttribute('srcdoc');
 
     if (code.includes('select') || code.includes('SELECT') || code.includes('Select')) {
       this.props.executeSqlMutate({
@@ -68,11 +69,17 @@ class Challenge extends Component {
   }
 
   render() {
+    if (this.props.level === 0) {
+      this.props.challengeSolved();
+      return <Redirect to="/" />;
+    }
+
+    const realLevel = this.props.level - 1;
     const { classes } = this.props;
     const { isError } = this;
 
     return (
-      <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
+      <Query query={ChallengeCodeQuery} variables={{ level: realLevel }}>
         {({ loading, data }) => {
           if (loading) return <div />;
 
@@ -86,7 +93,7 @@ class Challenge extends Component {
                   <Card className={classes.card}>
                     <CardContent className={classes.content}>
                       <Typography gutterBottom variant="headline" component="h1">
-                        Challenge {this.props.level}
+                        Challenge {realLevel}
                       </Typography>
                       <Tooltip id="tooltip-left-end" title={data.challengeCode.hint} placement="left-end">
                         <Button
