@@ -11,7 +11,7 @@ import { withStyles } from 'material-ui/styles';
 const styles = () => ({
   card: {
     position: 'relative',
-    top: '20%',
+    top: '10%',
     maxWidth: 375,
     margin: 'auto',
     borderRadius: '15px',
@@ -28,7 +28,7 @@ const styles = () => ({
     marginLeft: 'auto'
   },
   logo: {
-    width: '50%',
+    width: '70%',
     margin: 'auto',
     display: 'block',
     paddingTop: '150px'

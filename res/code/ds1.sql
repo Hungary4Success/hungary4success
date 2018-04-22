@@ -1,1 +1,1 @@
-SELECT *
+SELECT Year, Income, Expenses as Profit FROM `Finances`
