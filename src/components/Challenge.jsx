@@ -10,6 +10,7 @@ import Tooltip from 'material-ui/Tooltip';
 import Transition from 'react-transition-group/Transition';
 import Typography from 'material-ui/Typography';
 import gql from 'graphql-tag';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import validate from '../validate';
 import { withStyles } from 'material-ui/styles';
@@ -40,9 +41,10 @@ const transitionStyles = {
   entered: { opacity: 1 }
 };
 
-
 @observer
 class Challenge extends Component {
+  @observable isError = false;
+
   validateSolution = (history) => {
     const code = document.getElementById('editorCode').value;
     const html = document.getElementById('htmlPreview').value;
@@ -50,11 +52,14 @@ class Challenge extends Component {
     if (validate[this.props.level](code, html)) {
       this.props.challengeSolved();
       history.push('/');
+    } else {
+      this.isError = true;
     }
   }
 
   render() {
     const { classes } = this.props;
+    const { isError } = this;
 
     return (
       <Query query={ChallengeCodeQuery} variables={{ level: this.props.level }}>
@@ -92,7 +97,11 @@ class Challenge extends Component {
                         gutterBottom
                         variant="caption"
                         component="h1"
-                        style={{ color: 'red' }}
+                        style={{
+                          color: 'red',
+                          opacity: isError ? 1 : 0,
+                          transition: 'opacity 250ms ease-in-out'
+                        }}
                       >
                         Sorry, your answer was wrong.
                       </Typography>

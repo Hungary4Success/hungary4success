@@ -9,6 +9,7 @@ const styles = () => ({
   card: {
     position: 'relative',
     top: '5%',
+    left: '3%',
     margin: 'auto',
     borderRadius: '15px',
     maxWidth: '95%',
@@ -24,13 +25,15 @@ const styles = () => ({
     marginLeft: 'auto'
   },
   htmlEditor: {
-    overflow: 'auto'
+    overflow: 'auto',
+    marginTop: 10
   },
   htmlContainer: {
     width: '50%',
     background: 'white',
     align: 'right',
-    overflow: 'auto'
+    overflow: 'auto',
+    marginTop: 10
   }
 });
 
@@ -48,9 +51,8 @@ class Editor extends Component {
 
   componentDidMount() {
     window.addEventListener('resize', this.componentDidMount);
-    const width = document.getElementById('htmlPreview').offsetWidth - 16;
+    const width = document.getElementById('htmlPreview').offsetWidth - 25;
     const height = document.getElementById('editorCode').offsetHeight - 3;
-    console.log(width);
 
     document.getElementById('editorCode').setAttribute('style', `resize: none; width:${width}px;`);
     document.getElementById('htmlPreview').setAttribute('style', `height:${height}px;`);

@@ -84,7 +84,6 @@ class App extends Component {
     }
 
     if (this.showLetter === true && pathname !== '/') {
-      console.log('bbb');
       return <Redirect to="/" />;
     }
 
