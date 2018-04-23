@@ -7,3 +7,6 @@ Your task is to solve their problems, using your knowledge from different fields
 These start off trivial, and increase in difficulty so be ready for a challenge!
 
 https://www.youtube.com/watch?v=kDz6AQVSw9s
+
+The app is now live on:
+https://startup-simulator.herokuapp.com/
