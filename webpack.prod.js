@@ -13,7 +13,7 @@ module.exports = [
       new UglifyJSPlugin(),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production'),
-        API_URL: JSON.stringify('https://imant.herokuapp.com/api')
+        API_URL: JSON.stringify('https://startup-simulator.herokuapp.com/api')
       })
     ]
   })

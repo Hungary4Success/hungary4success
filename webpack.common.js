@@ -28,7 +28,7 @@ const serverConfig = {
   externals: [nodeExternals()],
   plugins: [
     new webpack.DefinePlugin({
-      API_URL: "process.env.NODE_ENV === 'production' ? 'https://imant.herokuapp.com/api' : 'https://localhost/api'"
+      API_URL: "process.env.NODE_ENV === 'production' ? 'https://startup-simulator.herokuapp.com/api' : 'https://localhost/api'"
     })
   ],
   module: jsxRules
